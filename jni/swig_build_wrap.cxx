@@ -303,6 +303,36 @@ SWIGEXPORT jint JNICALL Java_com_asnetwork_swig_AS_1Native_1PlayerJNI_ASNativePl
 }
 
 
+SWIGEXPORT jint JNICALL Java_com_asnetwork_swig_AS_1Native_1PlayerJNI_ASNativePlayer_1ASStartVideoDecode(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  ASNativePlayer *arg1 = (ASNativePlayer *) 0 ;
+  int result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(ASNativePlayer **)&jarg1; 
+  result = (int)(arg1)->ASStartVideoDecode();
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_asnetwork_swig_AS_1Native_1PlayerJNI_ASNativePlayer_1ASStopVideoDecode(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  ASNativePlayer *arg1 = (ASNativePlayer *) 0 ;
+  int result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(ASNativePlayer **)&jarg1; 
+  result = (int)(arg1)->ASStopVideoDecode();
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT jstring JNICALL Java_com_asnetwork_swig_AS_1Native_1PlayerJNI_ASNativePlayer_1getMediaSimpleInfo(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jstring jresult = 0 ;
   ASNativePlayer *arg1 = (ASNativePlayer *) 0 ;
@@ -315,6 +345,19 @@ SWIGEXPORT jstring JNICALL Java_com_asnetwork_swig_AS_1Native_1PlayerJNI_ASNativ
   result = (arg1)->getMediaSimpleInfo();
   jresult = jenv->NewStringUTF((&result)->c_str()); 
   return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_asnetwork_swig_AS_1Native_1PlayerJNI_ASNativePlayer_1setVideoDecodeEventHandler(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
+  ASNativePlayer *arg1 = (ASNativePlayer *) 0 ;
+  ASVideoDecodeCB *arg2 = (ASVideoDecodeCB *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(ASNativePlayer **)&jarg1; 
+  arg2 = *(ASVideoDecodeCB **)&jarg2; 
+  (arg1)->setVideoDecodeEventHandler(arg2);
 }
 
 
@@ -342,6 +385,34 @@ SWIGEXPORT jint JNICALL Java_com_asnetwork_swig_AS_1Native_1PlayerJNI_ASNativePl
   arg1 = *(ASNativePlayer **)&jarg1; 
   result = (int) ((arg1)->isOpenFile);
   jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_asnetwork_swig_AS_1Native_1PlayerJNI_ASNativePlayer_1isDecoding_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jboolean jarg2) {
+  ASNativePlayer *arg1 = (ASNativePlayer *) 0 ;
+  bool arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(ASNativePlayer **)&jarg1; 
+  arg2 = jarg2 ? true : false; 
+  if (arg1) (arg1)->isDecoding = arg2;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_com_asnetwork_swig_AS_1Native_1PlayerJNI_ASNativePlayer_1isDecoding_1get(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  ASNativePlayer *arg1 = (ASNativePlayer *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(ASNativePlayer **)&jarg1; 
+  result = (bool) ((arg1)->isDecoding);
+  jresult = (jboolean)result; 
   return jresult;
 }
 

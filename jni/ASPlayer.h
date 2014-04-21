@@ -26,8 +26,8 @@ extern "C"{
 
 #include <stdio.h>
 #include <string>
-
-
+#include "ASVideoDecodeEventImp.h"
+#include "ASVideoDecodeThread.h"
 class ASNativePlayer{
 public:
 	static ASNativePlayer* getInstance();
@@ -37,12 +37,16 @@ public:
 	~ASNativePlayer();
 	int ASOpenFile(char* filename);
 	int ASOpenCodec();
+
+	int ASStartVideoDecode();
+	int ASStopVideoDecode();
+
 	std::string getMediaSimpleInfo();
+	void setVideoDecodeEventHandler(ASVideoDecodeCB *handle);
 
 public:
 	int isOpenFile;
-//	int isOpenCodec;
-
+	bool isDecoding;
 private:
 	static ASNativePlayer* instance;
 	AVFormatContext *pFormatCtx;
@@ -56,6 +60,10 @@ private:
 	AVDictionary	*audioOptionsDict;
 	FILE			*pSourceFile;
 	std::string	    fileName;
+
+	// videoDecodeCallBack
+	ASVideoDecodeCB	*videoDecodeEeventHandler;
+	ASVideoDecodeThread		*videoDecodeThread;
 };
 
 

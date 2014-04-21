@@ -26,9 +26,12 @@ ASNativePlayer::ASNativePlayer() :
 		pSourceFile(NULL),
 		audioOptionsDict(NULL),
 		videoOptionsDict(NULL),
-		isOpenFile(0)
+		isOpenFile(0),
+		isDecoding(false),
+		videoDecodeEeventHandler(0)
 {
 	av_register_all();
+	videoDecodeThread = new ASVideoDecodeThread();
 }
 
 ASNativePlayer::~ASNativePlayer() {
@@ -47,6 +50,12 @@ ASNativePlayer::~ASNativePlayer() {
 		avformat_close_input(&pFormatCtx);
 	}
 	isOpenFile = 0;
+	isDecoding = false;
+	videoDecodeEeventHandler = 0;
+
+	if(videoDecodeThread!=0){
+		delete videoDecodeThread;
+	}
 }
 
 int ASNativePlayer::ASOpenFile(char* filename) {
@@ -109,7 +118,7 @@ int ASNativePlayer::ASOpenCodec() {
 	}
 
 	// Find the decoder for the video/audio stream
-	if (pVideoCodec != NULL) {
+	if (pVideoCodec == NULL) {
 		pVideoCodec = avcodec_find_decoder(pVideoCodecCtx->codec_id);
 		if (pVideoCodec == NULL) {
 			LOGW("%s", "unsupported video codec!\n");
@@ -118,7 +127,7 @@ int ASNativePlayer::ASOpenCodec() {
 		LOGW("%s", "pVideoCodec is NULL\n");
 	}
 
-	if (pAudioCodec != NULL) {
+	if (pAudioCodec == NULL) {
 		pAudioCodec = avcodec_find_decoder(pAudioCodecCtx->codec_id);
 		if (pAudioCodec == NULL) {
 			LOGW("%s", "unsupported audio codec!\n");
@@ -188,4 +197,34 @@ std::string ASNativePlayer::getMediaSimpleInfo() {
 		simpleInfo.append(audioCodecName);
 	}
 	return simpleInfo;
+}
+
+int ASNativePlayer::ASStartVideoDecode() {
+	if(videoDecodeEeventHandler!=0){
+		if(videoDecodeThread!=0){
+			VideoDecodeParam *param = new VideoDecodeParam();
+			param->videoStream =videoStream;
+			param->isRunning = &isDecoding;
+			param->pFormatCtx = pFormatCtx;
+			param->pVideoCodec = pVideoCodec;
+			param->pVideoCodecCtx = pVideoCodecCtx;
+			param->pVideoDecodeFuncCB = this->videoDecodeEeventHandler;
+			isDecoding = true;
+			videoDecodeThread->startDecodeThread(param);
+
+			videoDecodeEeventHandler->startVideoDecoding(true);
+		}
+
+	}
+}
+
+int ASNativePlayer::ASStopVideoDecode() {
+	if(videoDecodeEeventHandler!=0){
+		videoDecodeEeventHandler->stopVideoDecoding(true);
+	}
+}
+
+void ASNativePlayer::setVideoDecodeEventHandler(ASVideoDecodeCB* handle) {
+	if(handle != 0)
+		videoDecodeEeventHandler = handle;
 }
