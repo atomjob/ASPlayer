@@ -14,9 +14,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.asnetwok.asplayer.*;
-import com.asnetwork.common.Constrant;
+import com.asnetwork.asplayer.*;
+import com.asnetwork.common.Constants;
 import com.asnetwork.domain.ASMediaFile;
+import com.asnetwork.receiver.ASVideoDecodeRecv;
 import com.asnetwork.swig.ASNativePlayer;
 
 public class ASMediaFileAapter<T extends ASMediaFile> 
@@ -62,10 +63,7 @@ public class ASMediaFileAapter<T extends ASMediaFile>
 			long id) {
 		// TODO Auto-generated method stub
 		Intent intent = new Intent(cxt,ASFileDetailActivity.class);
-//		Bundle bundle = new Bundle();
-//		bundle.putString(Constrant.MEDIA_FILE_NAME,
-//				this.dataSource.get(position).getDATA());
-		ASNativePlayer player = ASNativePlayer.getInstance();
+		/*ASNativePlayer player = ASNativePlayer.getInstance();
 		if(player.getIsOpenFile()>0){
 			player.releaseInstance();
 		}
@@ -73,8 +71,17 @@ public class ASMediaFileAapter<T extends ASMediaFile>
 		player.ASOpenCodec();
 		String description = player.getMediaSimpleInfo();
 		
-		intent.putExtra(Constrant.MEDIA_FILE_NAME,description);
-		cxt.startActivity(intent);
+		intent.putExtra(Constants.MEDIA_FILE_NAME,description);
+		cxt.startActivity(intent);*/
+		ASNativePlayer player = ASNativePlayer.createNewInstance();
+		ASVideoDecodeRecv decodeRecv = new ASVideoDecodeRecv();
+		player.setVideoDecodeListern(decodeRecv);
+		player.ASOpenFile(this.dataSource.get(position).getDATA());
+		player.ASOpenCodec();
+		player.ASStartVideoDecode();
+//		player.ASStopVideoDecode();
+//		ASNativePlayer.releaseInstance(player);
+		
 	}
 	
 }

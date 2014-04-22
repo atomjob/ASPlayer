@@ -40,8 +40,17 @@ public class ASNativePlayer {
     return (cPtr == 0) ? null : new ASNativePlayer(cPtr, false);
   }
 
+  public static ASNativePlayer createNewInstance() {
+    long cPtr = AS_Native_PlayerJNI.ASNativePlayer_createNewInstance();
+    return (cPtr == 0) ? null : new ASNativePlayer(cPtr, false);
+  }
+
   public static void releaseInstance() {
-    AS_Native_PlayerJNI.ASNativePlayer_releaseInstance();
+    AS_Native_PlayerJNI.ASNativePlayer_releaseInstance__SWIG_0();
+  }
+
+  public static void releaseInstance(ASNativePlayer instance) {
+    AS_Native_PlayerJNI.ASNativePlayer_releaseInstance__SWIG_1(ASNativePlayer.getCPtr(instance), instance);
   }
 
   public ASNativePlayer() {
@@ -56,8 +65,24 @@ public class ASNativePlayer {
     return AS_Native_PlayerJNI.ASNativePlayer_ASOpenCodec(swigCPtr, this);
   }
 
+  public int ASStartVideoDecode() {
+    return AS_Native_PlayerJNI.ASNativePlayer_ASStartVideoDecode(swigCPtr, this);
+  }
+
+  public int ASStopVideoDecode() {
+    return AS_Native_PlayerJNI.ASNativePlayer_ASStopVideoDecode(swigCPtr, this);
+  }
+
   public String getMediaSimpleInfo() {
     return AS_Native_PlayerJNI.ASNativePlayer_getMediaSimpleInfo(swigCPtr, this);
+  }
+
+  public void setVideoDecodeListern(IVideoDecodeCB handle) {
+    AS_Native_PlayerJNI.ASNativePlayer_setVideoDecodeListern__SWIG_0(swigCPtr, this, IVideoDecodeCB.getCPtr(handle), handle);
+  }
+
+  public void setVideoDecodeListern() {
+    AS_Native_PlayerJNI.ASNativePlayer_setVideoDecodeListern__SWIG_1(swigCPtr, this);
   }
 
   public void setIsOpenFile(int value) {
@@ -66,6 +91,14 @@ public class ASNativePlayer {
 
   public int getIsOpenFile() {
     return AS_Native_PlayerJNI.ASNativePlayer_isOpenFile_get(swigCPtr, this);
+  }
+
+  public void setIsDecoding(boolean value) {
+    AS_Native_PlayerJNI.ASNativePlayer_isDecoding_set(swigCPtr, this, value);
+  }
+
+  public boolean getIsDecoding() {
+    return AS_Native_PlayerJNI.ASNativePlayer_isDecoding_get(swigCPtr, this);
   }
 
 }

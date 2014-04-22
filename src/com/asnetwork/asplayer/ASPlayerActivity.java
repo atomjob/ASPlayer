@@ -1,7 +1,8 @@
-package com.asnetwok.asplayer;
+package com.asnetwork.asplayer;
 
 import java.util.List;
 
+import com.asnetwok.asplayer.R;
 import com.asnetwork.adapter.ASMediaFileAapter;
 import com.asnetwork.domain.ASMediaFile;
 

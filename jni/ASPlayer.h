@@ -16,7 +16,7 @@
 #define   UINT64_C(value)__CONCAT(value,ULL)
 #endif
 extern "C"{
-#include<stdio.h>
+#include <stdio.h>
 #include <unistd.h>
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -26,15 +26,18 @@ extern "C"{
 
 #include <stdio.h>
 #include <string>
-#include "ASVideoDecodeEventImp.h"
+#include "ASVideoDecodeEvent.h"
 #include "ASVideoDecodeThread.h"
 class ASNativePlayer{
 public:
 	static ASNativePlayer* getInstance();
+	static ASNativePlayer* createNewInstance();
 	static void releaseInstance();
+	static void releaseInstance(ASNativePlayer* instance);
 public:
 	ASNativePlayer();
 	~ASNativePlayer();
+
 	int ASOpenFile(char* filename);
 	int ASOpenCodec();
 
@@ -42,7 +45,8 @@ public:
 	int ASStopVideoDecode();
 
 	std::string getMediaSimpleInfo();
-	void setVideoDecodeEventHandler(ASVideoDecodeCB *handle);
+	void setVideoDecodeListern(IVideoDecodeCB *handle);
+	void setVideoDecodeListern();
 
 public:
 	int isOpenFile;
@@ -62,7 +66,7 @@ private:
 	std::string	    fileName;
 
 	// videoDecodeCallBack
-	ASVideoDecodeCB	*videoDecodeEeventHandler;
+	IVideoDecodeCB	*videoDecodeEeventListern;
 	ASVideoDecodeThread		*videoDecodeThread;
 };
 

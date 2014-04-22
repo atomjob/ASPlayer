@@ -9,11 +9,12 @@
 				"clean")
 					ndk-build clean
 					rm -f *.cxx
+					rm -f ../src/com/asnetwork/swig/*.java
 					exit 0
 			esac
 			shift
 	done
 
-	swig -c++ -java -package com.asnetwork.swig -outdir ../src/com/asnetwork/swig swig_build.i
+	swig -c++ -java -package com.asnetwork.swig -outdir ../src/com/asnetwork/swig ./swig_build.i
 	ndk-build
 

@@ -18,7 +18,10 @@ LOCAL_SHARED_LIBRARIES := 	libavformat \
 							
 
 LOCAL_CFLAGS :=  -D__STDC_CONSTANT_MACROS
-LOCAL_LDLIBS += -llog -ljnigraphics -lz 
+LOCAL_LDLIBS += -llog -ljnigraphics -lz
+
+# Enable RTTI
+LOCAL_CPP_FEATURES += rtti
 
 include $(BUILD_SHARED_LIBRARY)
 $(call import-module, arm)

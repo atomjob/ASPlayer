@@ -9,20 +9,20 @@
 #define ASVIDEODECODEEVENTIMP_H_
 #include "ASLog.h"
 #include "IVideoDecodeCB.h"
-class ASVideoDecodeEventImp : public ASVideoDecodeCB{
+
+class ASVideoDecodeEvent : public IVideoDecodeCB{
 public:
-	ASVideoDecodeEventImp();
-	virtual ~ASVideoDecodeEventImp();
+	ASVideoDecodeEvent();
+	~ASVideoDecodeEvent();
 
 	virtual int startVideoDecoding(bool isStart);
 	virtual int stopVideoDecoding(bool isStop);
-	virtual int recvDecodeData(char *data,int width,int height);
+//	virtual int recvDecodeData(char *data,int width,int height);
 	virtual int dispayDataOnAndroid(char *data,int width,int height);
 
 public:
 	bool isStart;
 	bool isStop;
-
 };
 
 #endif /* ASVIDEODECODEEVENTIMP_H_ */

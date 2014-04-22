@@ -1,4 +1,4 @@
-package com.asnetwok.asplayer;
+package com.asnetwork.asplayer;
 import java.util.ArrayList;
 import java.util.List;
 

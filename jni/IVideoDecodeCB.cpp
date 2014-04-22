@@ -7,12 +7,12 @@
 
 #include "IVideoDecodeCB.h"
 
-ASVideoDecodeCB::ASVideoDecodeCB() {
+IVideoDecodeCB::IVideoDecodeCB() {
 	// TODO Auto-generated constructor stub
 
 }
 
-ASVideoDecodeCB::~ASVideoDecodeCB() {
+IVideoDecodeCB::~IVideoDecodeCB() {
 	// TODO Auto-generated destructor stub
 }
 

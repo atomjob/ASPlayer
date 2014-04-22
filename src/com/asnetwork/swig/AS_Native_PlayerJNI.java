@@ -9,13 +9,78 @@
 package com.asnetwork.swig;
 
 public class AS_Native_PlayerJNI {
+  public final static native long new_ucArray(int jarg1);
+  public final static native void delete_ucArray(long jarg1);
+  public final static native short ucArray_getitem(long jarg1, ucArray jarg1_, int jarg2);
+  public final static native void ucArray_setitem(long jarg1, ucArray jarg1_, int jarg2, short jarg3);
+  public final static native long ucArray_cast(long jarg1, ucArray jarg1_);
+  public final static native long ucArray_frompointer(long jarg1);
   public final static native long ASNativePlayer_getInstance();
-  public final static native void ASNativePlayer_releaseInstance();
+  public final static native long ASNativePlayer_createNewInstance();
+  public final static native void ASNativePlayer_releaseInstance__SWIG_0();
+  public final static native void ASNativePlayer_releaseInstance__SWIG_1(long jarg1, ASNativePlayer jarg1_);
   public final static native long new_ASNativePlayer();
   public final static native void delete_ASNativePlayer(long jarg1);
   public final static native int ASNativePlayer_ASOpenFile(long jarg1, ASNativePlayer jarg1_, String jarg2);
   public final static native int ASNativePlayer_ASOpenCodec(long jarg1, ASNativePlayer jarg1_);
+  public final static native int ASNativePlayer_ASStartVideoDecode(long jarg1, ASNativePlayer jarg1_);
+  public final static native int ASNativePlayer_ASStopVideoDecode(long jarg1, ASNativePlayer jarg1_);
   public final static native String ASNativePlayer_getMediaSimpleInfo(long jarg1, ASNativePlayer jarg1_);
+  public final static native void ASNativePlayer_setVideoDecodeListern__SWIG_0(long jarg1, ASNativePlayer jarg1_, long jarg2, IVideoDecodeCB jarg2_);
+  public final static native void ASNativePlayer_setVideoDecodeListern__SWIG_1(long jarg1, ASNativePlayer jarg1_);
   public final static native void ASNativePlayer_isOpenFile_set(long jarg1, ASNativePlayer jarg1_, int jarg2);
   public final static native int ASNativePlayer_isOpenFile_get(long jarg1, ASNativePlayer jarg1_);
+  public final static native void ASNativePlayer_isDecoding_set(long jarg1, ASNativePlayer jarg1_, boolean jarg2);
+  public final static native boolean ASNativePlayer_isDecoding_get(long jarg1, ASNativePlayer jarg1_);
+  public final static native long new_IVideoDecodeCB();
+  public final static native void delete_IVideoDecodeCB(long jarg1);
+  public final static native int IVideoDecodeCB_startVideoDecoding(long jarg1, IVideoDecodeCB jarg1_, boolean jarg2);
+  public final static native int IVideoDecodeCB_stopVideoDecoding(long jarg1, IVideoDecodeCB jarg1_, boolean jarg2);
+  public final static native int IVideoDecodeCB_recvDecodeData(long jarg1, IVideoDecodeCB jarg1_, String jarg2, int jarg3, int jarg4);
+  public final static native void IVideoDecodeCB_director_connect(IVideoDecodeCB obj, long cptr, boolean mem_own, boolean weak_global);
+  public final static native void IVideoDecodeCB_change_ownership(IVideoDecodeCB obj, long cptr, boolean take_or_release);
+  public final static native long new_ASVideoDecodeEvent();
+  public final static native void delete_ASVideoDecodeEvent(long jarg1);
+  public final static native int ASVideoDecodeEvent_startVideoDecoding(long jarg1, ASVideoDecodeEvent jarg1_, boolean jarg2);
+  public final static native int ASVideoDecodeEvent_startVideoDecodingSwigExplicitASVideoDecodeEvent(long jarg1, ASVideoDecodeEvent jarg1_, boolean jarg2);
+  public final static native int ASVideoDecodeEvent_stopVideoDecoding(long jarg1, ASVideoDecodeEvent jarg1_, boolean jarg2);
+  public final static native int ASVideoDecodeEvent_stopVideoDecodingSwigExplicitASVideoDecodeEvent(long jarg1, ASVideoDecodeEvent jarg1_, boolean jarg2);
+  public final static native int ASVideoDecodeEvent_recvDecodeData(long jarg1, ASVideoDecodeEvent jarg1_, String jarg2, int jarg3, int jarg4);
+  public final static native int ASVideoDecodeEvent_recvDecodeDataSwigExplicitASVideoDecodeEvent(long jarg1, ASVideoDecodeEvent jarg1_, String jarg2, int jarg3, int jarg4);
+  public final static native int ASVideoDecodeEvent_dispayDataOnAndroid(long jarg1, ASVideoDecodeEvent jarg1_, String jarg2, int jarg3, int jarg4);
+  public final static native int ASVideoDecodeEvent_dispayDataOnAndroidSwigExplicitASVideoDecodeEvent(long jarg1, ASVideoDecodeEvent jarg1_, String jarg2, int jarg3, int jarg4);
+  public final static native void ASVideoDecodeEvent_isStart_set(long jarg1, ASVideoDecodeEvent jarg1_, boolean jarg2);
+  public final static native boolean ASVideoDecodeEvent_isStart_get(long jarg1, ASVideoDecodeEvent jarg1_);
+  public final static native void ASVideoDecodeEvent_isStop_set(long jarg1, ASVideoDecodeEvent jarg1_, boolean jarg2);
+  public final static native boolean ASVideoDecodeEvent_isStop_get(long jarg1, ASVideoDecodeEvent jarg1_);
+  public final static native void ASVideoDecodeEvent_director_connect(ASVideoDecodeEvent obj, long cptr, boolean mem_own, boolean weak_global);
+  public final static native void ASVideoDecodeEvent_change_ownership(ASVideoDecodeEvent obj, long cptr, boolean take_or_release);
+  public final static native long ASVideoDecodeEvent_SWIGUpcast(long jarg1);
+
+  public static int SwigDirector_IVideoDecodeCB_startVideoDecoding(IVideoDecodeCB self, boolean isStart) {
+    return self.startVideoDecoding(isStart);
+  }
+  public static int SwigDirector_IVideoDecodeCB_stopVideoDecoding(IVideoDecodeCB self, boolean isStop) {
+    return self.stopVideoDecoding(isStop);
+  }
+  public static int SwigDirector_IVideoDecodeCB_recvDecodeData(IVideoDecodeCB self, String data, int width, int height) {
+    return self.recvDecodeData(data, width, height);
+  }
+  public static int SwigDirector_ASVideoDecodeEvent_startVideoDecoding(ASVideoDecodeEvent self, boolean isStart) {
+    return self.startVideoDecoding(isStart);
+  }
+  public static int SwigDirector_ASVideoDecodeEvent_stopVideoDecoding(ASVideoDecodeEvent self, boolean isStop) {
+    return self.stopVideoDecoding(isStop);
+  }
+  public static int SwigDirector_ASVideoDecodeEvent_recvDecodeData(ASVideoDecodeEvent self, String data, int width, int height) {
+    return self.recvDecodeData(data, width, height);
+  }
+  public static int SwigDirector_ASVideoDecodeEvent_dispayDataOnAndroid(ASVideoDecodeEvent self, String data, int width, int height) {
+    return self.dispayDataOnAndroid(data, width, height);
+  }
+
+  private final static native void swig_module_init();
+  static {
+    swig_module_init();
+  }
 }

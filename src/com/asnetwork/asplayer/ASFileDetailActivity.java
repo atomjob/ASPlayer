@@ -1,6 +1,7 @@
-package com.asnetwok.asplayer;
+package com.asnetwork.asplayer;
 
-import com.asnetwork.common.Constrant;
+import com.asnetwok.asplayer.R;
+import com.asnetwork.common.Constants;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -18,7 +19,7 @@ public class ASFileDetailActivity extends Activity {
 		this.setContentView(R.layout.activity_media_file_detail);
 		TextView txView = (TextView)findViewById(R.id.textview_media_detail);
 		String detailString = 
-				(String) getIntent().getExtras().get(Constrant.MEDIA_FILE_NAME);
+				(String) getIntent().getExtras().get(Constants.MEDIA_FILE_NAME);
 		txView.setText(detailString);
 	}
 	
@@ -31,7 +32,7 @@ public class ASFileDetailActivity extends Activity {
 			View view = inflater.inflate(R.layout.activity_media_file_detail, null);
 			TextView txView = (TextView)view.findViewById(R.id.textview_media_detail);
 			String detailString = 
-					(String) getActivity().getIntent().getExtras().get(Constrant.MEDIA_FILE_NAME);
+					(String) getActivity().getIntent().getExtras().get(Constants.MEDIA_FILE_NAME);
 			txView.setText(detailString);
 			return view;
 		}

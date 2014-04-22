@@ -24,7 +24,7 @@ typedef struct VideoDecodeParam{
 		int 			 audioStream,videoStream;
 		AVCodecContext	*pVideoCodecCtx;
 		AVCodec			*pVideoCodec;
-		ASVideoDecodeCB *pVideoDecodeFuncCB;
+		IVideoDecodeCB *pVideoDecodeFuncCB;
 		bool 			*isRunning;
 } *pVideoDecodeParam;
 

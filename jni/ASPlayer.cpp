@@ -16,20 +16,11 @@ void ASNativePlayer::releaseInstance() {
 }
 
 ASNativePlayer::ASNativePlayer() :
-		pFormatCtx(NULL),
-		audioStream(-1),
-		videoStream(-1),
-		pVideoCodecCtx(NULL),
-		pVideoCodec(NULL),
-		pAudioCodecCtx(NULL),
-		pAudioCodec(NULL),
-		pSourceFile(NULL),
-		audioOptionsDict(NULL),
-		videoOptionsDict(NULL),
-		isOpenFile(0),
-		isDecoding(false),
-		videoDecodeEeventHandler(0)
-{
+		pFormatCtx(NULL), audioStream(-1), videoStream(-1), pVideoCodecCtx(
+				NULL), pVideoCodec(NULL), pAudioCodecCtx(NULL), pAudioCodec(
+				NULL), pSourceFile(NULL), audioOptionsDict(NULL), videoOptionsDict(
+				NULL), isOpenFile(0), isDecoding(false), videoDecodeEeventListern(
+				0) {
 	av_register_all();
 	videoDecodeThread = new ASVideoDecodeThread();
 }
@@ -51,23 +42,23 @@ ASNativePlayer::~ASNativePlayer() {
 	}
 	isOpenFile = 0;
 	isDecoding = false;
-	videoDecodeEeventHandler = 0;
+	videoDecodeEeventListern = 0;
 
-	if(videoDecodeThread!=0){
+	if (videoDecodeThread != 0) {
 		delete videoDecodeThread;
 	}
 }
 
 int ASNativePlayer::ASOpenFile(char* filename) {
-	if(access(filename,0) == -1) return -1;
+	if (access(filename, 0) == -1)
+		return -1;
 
 	fileName = filename;
 	// open the video file
-	if(avformat_open_input(&pFormatCtx,filename,NULL,NULL) != 0){
+	if (avformat_open_input(&pFormatCtx, filename, NULL, NULL) != 0) {
 		isOpenFile = 1;
 		return -1; // Could't open file
 	}
-
 
 	// Retrive stream information
 	if (avformat_find_stream_info(pFormatCtx, NULL) < 0) {
@@ -97,7 +88,8 @@ int ASNativePlayer::ASOpenCodec() {
 	int bsupportVideo = -1;
 	int bsupportAudio = -1;
 
-	if(pFormatCtx==NULL) return -1;
+	if (pFormatCtx == NULL)
+		return -1;
 
 	if (videoStream != -1) {
 		pVideoCodecCtx = pFormatCtx->streams[videoStream]->codec;
@@ -108,7 +100,7 @@ int ASNativePlayer::ASOpenCodec() {
 
 	if (audioStream != -1) {
 		pAudioCodecCtx = pFormatCtx->streams[audioStream]->codec;
-	}else {
+	} else {
 #ifndef __ANDROID__
 		LOGW("%s: %s\n", __func__, "audioStream == -1");
 #else
@@ -136,57 +128,57 @@ int ASNativePlayer::ASOpenCodec() {
 		LOGW("%s", "pAudioCodec is NULL\n");
 	}
 
-	if(pAudioCodecCtx != NULL && pAudioCodec != NULL)
-	{
-		if(avcodec_open2(pAudioCodecCtx,pAudioCodec,&audioOptionsDict) < 0){
-			LOGW("%s,%s",__func__,"audio avcodec_open2 failed!\n");
+	if (pAudioCodecCtx != NULL && pAudioCodec != NULL) {
+		if (avcodec_open2(pAudioCodecCtx, pAudioCodec, &audioOptionsDict) < 0) {
+			LOGW("%s,%s", __func__, "audio avcodec_open2 failed!\n");
 		}
 		bsupportAudio = 1;
 	}
-	if(pVideoCodecCtx != NULL && pVideoCodec!= NULL){
-		if(avcodec_open2(pVideoCodecCtx,pVideoCodec,&videoOptionsDict) < 0){
-			LOGW("%s,%s",__func__,"video avcodec_open2 failed!\n");
+	if (pVideoCodecCtx != NULL && pVideoCodec != NULL) {
+		if (avcodec_open2(pVideoCodecCtx, pVideoCodec, &videoOptionsDict) < 0) {
+			LOGW("%s,%s", __func__, "video avcodec_open2 failed!\n");
 			bsupportVideo = -1;
 		}
 		bsupportVideo = 1;
 	}
-	return bsupportVideo<0 || bsupportAudio<0;
+	return bsupportVideo < 0 || bsupportAudio < 0;
 }
-
 
 std::string ASNativePlayer::getMediaSimpleInfo() {
 	std::string simpleInfo;
 	std::string videoCodecName;
 	std::string audioCodecName;
-	char info[1024]={0};
-	char durationInfo[512]={0};
+	char info[1024] = { 0 };
+	char durationInfo[512] = { 0 };
 
 	AVFormatContext* ic = pFormatCtx;
-	if(ic!=NULL){
+	if (ic != NULL) {
 		simpleInfo.append("iformat:");
 		simpleInfo.append(ic->iformat->name);
 		simpleInfo.append("\n");
 
-		if (ic->duration != AV_NOPTS_VALUE) {
-				            int hours, mins, secs, us;
-				            int64_t duration = ic->duration + 5000;
-				            secs = duration / AV_TIME_BASE;
-				            us = duration % AV_TIME_BASE;
-				            mins = secs / 60;
-				            secs %= 60;
-				            hours = mins / 60;
-				            mins %= 60;
-				            sprintf(durationInfo, "%02d:%02d:%02d.%02d", hours, mins, secs,
-				                   (100 * us) / AV_TIME_BASE);
-				            simpleInfo.append(durationInfo);
-				            simpleInfo.append("\n");
+		if (ic->duration != AV_NOPTS_VALUE ) {
+			int hours, mins, secs, us;
+			int64_t duration = ic->duration + 5000;
+			secs = duration / AV_TIME_BASE;
+			us = duration % AV_TIME_BASE;
+			mins = secs / 60;
+			secs %= 60;
+			hours = mins / 60;
+			mins %= 60;
+			sprintf(durationInfo, "%02d:%02d:%02d.%02d", hours, mins, secs,
+					(100 * us) / AV_TIME_BASE);
+			simpleInfo.append(durationInfo);
+			simpleInfo.append("\n");
 		}
-		if(pVideoCodecCtx!=NULL){
-			const AVCodecDescriptor *description = av_codec_get_codec_descriptor(pVideoCodecCtx);
+		if (pVideoCodecCtx != NULL) {
+			const AVCodecDescriptor *description =
+					av_codec_get_codec_descriptor(pVideoCodecCtx);
 			videoCodecName = description->long_name;
 		}
-		if(pAudioCodecCtx!=NULL){
-			const AVCodecDescriptor *description = av_codec_get_codec_descriptor(pAudioCodecCtx);
+		if (pAudioCodecCtx != NULL) {
+			const AVCodecDescriptor *description =
+					av_codec_get_codec_descriptor(pAudioCodecCtx);
 			audioCodecName = description->long_name;
 		}
 
@@ -200,31 +192,46 @@ std::string ASNativePlayer::getMediaSimpleInfo() {
 }
 
 int ASNativePlayer::ASStartVideoDecode() {
-	if(videoDecodeEeventHandler!=0){
-		if(videoDecodeThread!=0){
+	if (videoDecodeEeventListern != 0) {
+		if (videoDecodeThread != 0) {
 			VideoDecodeParam *param = new VideoDecodeParam();
-			param->videoStream =videoStream;
+			param->videoStream = videoStream;
 			param->isRunning = &isDecoding;
 			param->pFormatCtx = pFormatCtx;
 			param->pVideoCodec = pVideoCodec;
 			param->pVideoCodecCtx = pVideoCodecCtx;
-			param->pVideoDecodeFuncCB = this->videoDecodeEeventHandler;
+			param->pVideoDecodeFuncCB = videoDecodeEeventListern;
 			isDecoding = true;
 			videoDecodeThread->startDecodeThread(param);
 
-			videoDecodeEeventHandler->startVideoDecoding(true);
+			videoDecodeEeventListern->startVideoDecoding(true);
 		}
 
 	}
 }
 
 int ASNativePlayer::ASStopVideoDecode() {
-	if(videoDecodeEeventHandler!=0){
-		videoDecodeEeventHandler->stopVideoDecoding(true);
+	if (videoDecodeEeventListern != 0) {
+		videoDecodeEeventListern->stopVideoDecoding(true);
 	}
 }
 
-void ASNativePlayer::setVideoDecodeEventHandler(ASVideoDecodeCB* handle) {
-	if(handle != 0)
-		videoDecodeEeventHandler = handle;
+void ASNativePlayer::setVideoDecodeListern(IVideoDecodeCB* handle) {
+	if (handle != 0)
+		videoDecodeEeventListern = handle;
+}
+
+void ASNativePlayer::setVideoDecodeListern() {
+	ASVideoDecodeEvent * videoDecodeEvent = new ASVideoDecodeEvent();
+	setVideoDecodeListern(videoDecodeEvent);
+}
+
+ASNativePlayer* ASNativePlayer::createNewInstance() {
+	return new ASNativePlayer();
+}
+
+void ASNativePlayer::releaseInstance(ASNativePlayer* instance) {
+	if(instance != NULL){
+		delete instance;
+	}
 }

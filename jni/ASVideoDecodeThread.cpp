@@ -67,6 +67,8 @@ void ASVideoDecodeThread::decodeFunc(void* args) {
 					// Free the packet the was allocated by av_read_frame
 					av_free_packet(&packet);
 				}
+				videoDecodeParam->pVideoDecodeFuncCB->stopVideoDecoding(true);
+				videoDecodeParam->isRunning = false;
 
 	}
 
