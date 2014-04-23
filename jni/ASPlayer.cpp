@@ -20,7 +20,7 @@ ASNativePlayer::ASNativePlayer() :
 				NULL), pVideoCodec(NULL), pAudioCodecCtx(NULL), pAudioCodec(
 				NULL), pSourceFile(NULL), audioOptionsDict(NULL), videoOptionsDict(
 				NULL), isOpenFile(0), isDecoding(false), videoDecodeEeventListern(
-				0) {
+				0),videoDisplay() {
 	av_register_all();
 	videoDecodeThread = new ASVideoDecodeThread();
 }
@@ -201,6 +201,7 @@ int ASNativePlayer::ASStartVideoDecode() {
 			param->pVideoCodec = pVideoCodec;
 			param->pVideoCodecCtx = pVideoCodecCtx;
 			param->pVideoDecodeFuncCB = videoDecodeEeventListern;
+			param->display = &videoDisplay;
 			isDecoding = true;
 			videoDecodeThread->startDecodeThread(param);
 
@@ -234,4 +235,8 @@ void ASNativePlayer::releaseInstance(ASNativePlayer* instance) {
 	if(instance != NULL){
 		delete instance;
 	}
+}
+
+void ASNativePlayer::setDisplayHandle(jobject handle) {
+	this->videoDisplay.surface = handle;
 }

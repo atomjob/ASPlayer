@@ -17,6 +17,7 @@ extern "C"{
 #include <libavutil/dict.h>
 }
 #include "IVideoDecodeCB.h"
+#include "ASVideoDisplay.h"
 //typedef int (*recvDecodeFuncCb)(char* data, int width, int height);
 
 typedef struct VideoDecodeParam{
@@ -26,6 +27,7 @@ typedef struct VideoDecodeParam{
 		AVCodec			*pVideoCodec;
 		IVideoDecodeCB *pVideoDecodeFuncCB;
 		bool 			*isRunning;
+		ASVideoDisplay	*display;
 } *pVideoDecodeParam;
 
 class ASVideoDecodeThread {

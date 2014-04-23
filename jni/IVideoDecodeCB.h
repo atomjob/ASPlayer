@@ -22,7 +22,8 @@ public:
 	virtual ~IVideoDecodeCB();
 	virtual int startVideoDecoding(bool isStart) = 0;
 	virtual int stopVideoDecoding(bool isStop) = 0;
-	virtual int recvDecodeData(char *data,int width,int height) =0;
+//	virtual int recvDecodeData(char *data,int width,int height) =0;
 };
+
 
 #endif /* ASVIDEODECODECB_H_ */

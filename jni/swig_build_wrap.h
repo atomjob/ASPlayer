@@ -19,13 +19,12 @@ public:
     virtual ~SwigDirector_IVideoDecodeCB();
     virtual int startVideoDecoding(bool isStart);
     virtual int stopVideoDecoding(bool isStop);
-    virtual int recvDecodeData(char *data, int width, int height);
 public:
     bool swig_overrides(int n) {
-      return (n < 3 ? swig_override[n] : false);
+      return (n < 2 ? swig_override[n] : false);
     }
 protected:
-    bool swig_override[3];
+    bool swig_override[2];
 };
 
 class SwigDirector_ASVideoDecodeEvent : public ASVideoDecodeEvent, public Swig::Director {
@@ -36,14 +35,12 @@ public:
     virtual ~SwigDirector_ASVideoDecodeEvent();
     virtual int startVideoDecoding(bool isStart);
     virtual int stopVideoDecoding(bool isStop);
-    virtual int recvDecodeData(char *data, int width, int height);
-    virtual int dispayDataOnAndroid(char *data, int width, int height);
 public:
     bool swig_overrides(int n) {
-      return (n < 4 ? swig_override[n] : false);
+      return (n < 2 ? swig_override[n] : false);
     }
 protected:
-    bool swig_override[4];
+    bool swig_override[2];
 };
 
 

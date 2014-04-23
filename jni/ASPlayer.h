@@ -47,7 +47,7 @@ public:
 	std::string getMediaSimpleInfo();
 	void setVideoDecodeListern(IVideoDecodeCB *handle);
 	void setVideoDecodeListern();
-
+	void setDisplayHandle(jobject handle);
 public:
 	int isOpenFile;
 	bool isDecoding;
@@ -68,6 +68,7 @@ private:
 	// videoDecodeCallBack
 	IVideoDecodeCB	*videoDecodeEeventListern;
 	ASVideoDecodeThread		*videoDecodeThread;
+	ASVideoDisplay  videoDisplay;
 };
 
 

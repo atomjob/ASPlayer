@@ -412,7 +412,7 @@ namespace Swig {
 namespace Swig {
   namespace {
     jclass jclass_AS_Native_PlayerJNI = NULL;
-    jmethodID director_methids[7];
+    jmethodID director_methids[4];
   }
 }
 
@@ -514,39 +514,6 @@ int SwigDirector_IVideoDecodeCB::stopVideoDecoding(bool isStop) {
   return c_result;
 }
 
-int SwigDirector_IVideoDecodeCB::recvDecodeData(char *data, int width, int height) {
-  int c_result = SwigValueInit< int >() ;
-  jint jresult = 0 ;
-  JNIEnvWrapper swigjnienv(this) ;
-  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
-  jobject swigjobj = (jobject) NULL ;
-  jstring jdata = 0 ;
-  jint jwidth  ;
-  jint jheight  ;
-  
-  if (!swig_override[2]) {
-    SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method IVideoDecodeCB::recvDecodeData.");
-    return c_result;
-  }
-  swigjobj = swig_get_self(jenv);
-  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jdata = 0;
-    if (data) {
-      jdata = jenv->NewStringUTF((const char *)data);
-      if (!jdata) return c_result;
-    }
-    jwidth = (jint) width;
-    jheight = (jint) height;
-    jresult = (jint) jenv->CallStaticIntMethod(Swig::jclass_AS_Native_PlayerJNI, Swig::director_methids[2], swigjobj, jdata, jwidth, jheight);
-    if (jenv->ExceptionCheck() == JNI_TRUE) return c_result;
-    c_result = (int)jresult; 
-  } else {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object");
-  }
-  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
-  return c_result;
-}
-
 void SwigDirector_IVideoDecodeCB::swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global) {
   static struct {
     const char *mname;
@@ -558,9 +525,6 @@ void SwigDirector_IVideoDecodeCB::swig_connect_director(JNIEnv *jenv, jobject js
     },
     {
       "stopVideoDecoding", "(Z)I", NULL 
-    },
-    {
-      "recvDecodeData", "(Ljava/lang/String;II)I", NULL 
     }
   };
   
@@ -573,7 +537,7 @@ void SwigDirector_IVideoDecodeCB::swig_connect_director(JNIEnv *jenv, jobject js
       baseclass = (jclass) jenv->NewGlobalRef(baseclass);
     }
     bool derived = (jenv->IsSameObject(baseclass, jcls) ? false : true);
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < 2; ++i) {
       if (!methods[i].base_methid) {
         methods[i].base_methid = jenv->GetMethodID(baseclass, methods[i].mname, methods[i].mdesc);
         if (!methods[i].base_methid) return;
@@ -611,7 +575,7 @@ int SwigDirector_ASVideoDecodeEvent::startVideoDecoding(bool isStart) {
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
     jisStart = (jboolean) isStart;
-    jresult = (jint) jenv->CallStaticIntMethod(Swig::jclass_AS_Native_PlayerJNI, Swig::director_methids[3], swigjobj, jisStart);
+    jresult = (jint) jenv->CallStaticIntMethod(Swig::jclass_AS_Native_PlayerJNI, Swig::director_methids[2], swigjobj, jisStart);
     if (jenv->ExceptionCheck() == JNI_TRUE) return c_result;
     c_result = (int)jresult; 
   } else {
@@ -635,71 +599,7 @@ int SwigDirector_ASVideoDecodeEvent::stopVideoDecoding(bool isStop) {
   swigjobj = swig_get_self(jenv);
   if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
     jisStop = (jboolean) isStop;
-    jresult = (jint) jenv->CallStaticIntMethod(Swig::jclass_AS_Native_PlayerJNI, Swig::director_methids[4], swigjobj, jisStop);
-    if (jenv->ExceptionCheck() == JNI_TRUE) return c_result;
-    c_result = (int)jresult; 
-  } else {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object");
-  }
-  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
-  return c_result;
-}
-
-int SwigDirector_ASVideoDecodeEvent::recvDecodeData(char *data, int width, int height) {
-  int c_result = SwigValueInit< int >() ;
-  jint jresult = 0 ;
-  JNIEnvWrapper swigjnienv(this) ;
-  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
-  jobject swigjobj = (jobject) NULL ;
-  jstring jdata = 0 ;
-  jint jwidth  ;
-  jint jheight  ;
-  
-  if (!swig_override[2]) {
-    return ASVideoDecodeEvent::recvDecodeData(data,width,height);
-  }
-  swigjobj = swig_get_self(jenv);
-  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jdata = 0;
-    if (data) {
-      jdata = jenv->NewStringUTF((const char *)data);
-      if (!jdata) return c_result;
-    }
-    jwidth = (jint) width;
-    jheight = (jint) height;
-    jresult = (jint) jenv->CallStaticIntMethod(Swig::jclass_AS_Native_PlayerJNI, Swig::director_methids[5], swigjobj, jdata, jwidth, jheight);
-    if (jenv->ExceptionCheck() == JNI_TRUE) return c_result;
-    c_result = (int)jresult; 
-  } else {
-    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object");
-  }
-  if (swigjobj) jenv->DeleteLocalRef(swigjobj);
-  return c_result;
-}
-
-int SwigDirector_ASVideoDecodeEvent::dispayDataOnAndroid(char *data, int width, int height) {
-  int c_result = SwigValueInit< int >() ;
-  jint jresult = 0 ;
-  JNIEnvWrapper swigjnienv(this) ;
-  JNIEnv * jenv = swigjnienv.getJNIEnv() ;
-  jobject swigjobj = (jobject) NULL ;
-  jstring jdata = 0 ;
-  jint jwidth  ;
-  jint jheight  ;
-  
-  if (!swig_override[3]) {
-    return ASVideoDecodeEvent::dispayDataOnAndroid(data,width,height);
-  }
-  swigjobj = swig_get_self(jenv);
-  if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
-    jdata = 0;
-    if (data) {
-      jdata = jenv->NewStringUTF((const char *)data);
-      if (!jdata) return c_result;
-    }
-    jwidth = (jint) width;
-    jheight = (jint) height;
-    jresult = (jint) jenv->CallStaticIntMethod(Swig::jclass_AS_Native_PlayerJNI, Swig::director_methids[6], swigjobj, jdata, jwidth, jheight);
+    jresult = (jint) jenv->CallStaticIntMethod(Swig::jclass_AS_Native_PlayerJNI, Swig::director_methids[3], swigjobj, jisStop);
     if (jenv->ExceptionCheck() == JNI_TRUE) return c_result;
     c_result = (int)jresult; 
   } else {
@@ -720,12 +620,6 @@ void SwigDirector_ASVideoDecodeEvent::swig_connect_director(JNIEnv *jenv, jobjec
     },
     {
       "stopVideoDecoding", "(Z)I", NULL 
-    },
-    {
-      "recvDecodeData", "(Ljava/lang/String;II)I", NULL 
-    },
-    {
-      "dispayDataOnAndroid", "(Ljava/lang/String;II)I", NULL 
     }
   };
   
@@ -738,7 +632,7 @@ void SwigDirector_ASVideoDecodeEvent::swig_connect_director(JNIEnv *jenv, jobjec
       baseclass = (jclass) jenv->NewGlobalRef(baseclass);
     }
     bool derived = (jenv->IsSameObject(baseclass, jcls) ? false : true);
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < 2; ++i) {
       if (!methods[i].base_methid) {
         methods[i].base_methid = jenv->GetMethodID(baseclass, methods[i].mname, methods[i].mdesc);
         if (!methods[i].base_methid) return;
@@ -1015,6 +909,19 @@ SWIGEXPORT void JNICALL Java_com_asnetwork_swig_AS_1Native_1PlayerJNI_ASNativePl
 }
 
 
+SWIGEXPORT void JNICALL Java_com_asnetwork_swig_AS_1Native_1PlayerJNI_ASNativePlayer_1setDisplayHandle(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jobject jarg2) {
+  ASNativePlayer *arg1 = (ASNativePlayer *) 0 ;
+  jobject arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(ASNativePlayer **)&jarg1; 
+  arg2 = jarg2; 
+  (arg1)->setDisplayHandle(arg2);
+}
+
+
 SWIGEXPORT void JNICALL Java_com_asnetwork_swig_AS_1Native_1PlayerJNI_ASNativePlayer_1isOpenFile_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
   ASNativePlayer *arg1 = (ASNativePlayer *) 0 ;
   int arg2 ;
@@ -1123,32 +1030,6 @@ SWIGEXPORT jint JNICALL Java_com_asnetwork_swig_AS_1Native_1PlayerJNI_IVideoDeco
   arg2 = jarg2 ? true : false; 
   result = (int)(arg1)->stopVideoDecoding(arg2);
   jresult = (jint)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT jint JNICALL Java_com_asnetwork_swig_AS_1Native_1PlayerJNI_IVideoDecodeCB_1recvDecodeData(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2, jint jarg3, jint jarg4) {
-  jint jresult = 0 ;
-  IVideoDecodeCB *arg1 = (IVideoDecodeCB *) 0 ;
-  char *arg2 = (char *) 0 ;
-  int arg3 ;
-  int arg4 ;
-  int result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(IVideoDecodeCB **)&jarg1; 
-  arg2 = 0;
-  if (jarg2) {
-    arg2 = (char *)jenv->GetStringUTFChars(jarg2, 0);
-    if (!arg2) return 0;
-  }
-  arg3 = (int)jarg3; 
-  arg4 = (int)jarg4; 
-  result = (int)(arg1)->recvDecodeData(arg2,arg3,arg4);
-  jresult = (jint)result; 
-  if (arg2) jenv->ReleaseStringUTFChars(jarg2, (const char *)arg2);
   return jresult;
 }
 
@@ -1263,110 +1144,6 @@ SWIGEXPORT jint JNICALL Java_com_asnetwork_swig_AS_1Native_1PlayerJNI_ASVideoDec
 }
 
 
-SWIGEXPORT jint JNICALL Java_com_asnetwork_swig_AS_1Native_1PlayerJNI_ASVideoDecodeEvent_1recvDecodeData(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2, jint jarg3, jint jarg4) {
-  jint jresult = 0 ;
-  ASVideoDecodeEvent *arg1 = (ASVideoDecodeEvent *) 0 ;
-  char *arg2 = (char *) 0 ;
-  int arg3 ;
-  int arg4 ;
-  int result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(ASVideoDecodeEvent **)&jarg1; 
-  arg2 = 0;
-  if (jarg2) {
-    arg2 = (char *)jenv->GetStringUTFChars(jarg2, 0);
-    if (!arg2) return 0;
-  }
-  arg3 = (int)jarg3; 
-  arg4 = (int)jarg4; 
-  result = (int)(arg1)->recvDecodeData(arg2,arg3,arg4);
-  jresult = (jint)result; 
-  if (arg2) jenv->ReleaseStringUTFChars(jarg2, (const char *)arg2);
-  return jresult;
-}
-
-
-SWIGEXPORT jint JNICALL Java_com_asnetwork_swig_AS_1Native_1PlayerJNI_ASVideoDecodeEvent_1recvDecodeDataSwigExplicitASVideoDecodeEvent(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2, jint jarg3, jint jarg4) {
-  jint jresult = 0 ;
-  ASVideoDecodeEvent *arg1 = (ASVideoDecodeEvent *) 0 ;
-  char *arg2 = (char *) 0 ;
-  int arg3 ;
-  int arg4 ;
-  int result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(ASVideoDecodeEvent **)&jarg1; 
-  arg2 = 0;
-  if (jarg2) {
-    arg2 = (char *)jenv->GetStringUTFChars(jarg2, 0);
-    if (!arg2) return 0;
-  }
-  arg3 = (int)jarg3; 
-  arg4 = (int)jarg4; 
-  result = (int)(arg1)->ASVideoDecodeEvent::recvDecodeData(arg2,arg3,arg4);
-  jresult = (jint)result; 
-  if (arg2) jenv->ReleaseStringUTFChars(jarg2, (const char *)arg2);
-  return jresult;
-}
-
-
-SWIGEXPORT jint JNICALL Java_com_asnetwork_swig_AS_1Native_1PlayerJNI_ASVideoDecodeEvent_1dispayDataOnAndroid(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2, jint jarg3, jint jarg4) {
-  jint jresult = 0 ;
-  ASVideoDecodeEvent *arg1 = (ASVideoDecodeEvent *) 0 ;
-  char *arg2 = (char *) 0 ;
-  int arg3 ;
-  int arg4 ;
-  int result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(ASVideoDecodeEvent **)&jarg1; 
-  arg2 = 0;
-  if (jarg2) {
-    arg2 = (char *)jenv->GetStringUTFChars(jarg2, 0);
-    if (!arg2) return 0;
-  }
-  arg3 = (int)jarg3; 
-  arg4 = (int)jarg4; 
-  result = (int)(arg1)->dispayDataOnAndroid(arg2,arg3,arg4);
-  jresult = (jint)result; 
-  if (arg2) jenv->ReleaseStringUTFChars(jarg2, (const char *)arg2);
-  return jresult;
-}
-
-
-SWIGEXPORT jint JNICALL Java_com_asnetwork_swig_AS_1Native_1PlayerJNI_ASVideoDecodeEvent_1dispayDataOnAndroidSwigExplicitASVideoDecodeEvent(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2, jint jarg3, jint jarg4) {
-  jint jresult = 0 ;
-  ASVideoDecodeEvent *arg1 = (ASVideoDecodeEvent *) 0 ;
-  char *arg2 = (char *) 0 ;
-  int arg3 ;
-  int arg4 ;
-  int result;
-  
-  (void)jenv;
-  (void)jcls;
-  (void)jarg1_;
-  arg1 = *(ASVideoDecodeEvent **)&jarg1; 
-  arg2 = 0;
-  if (jarg2) {
-    arg2 = (char *)jenv->GetStringUTFChars(jarg2, 0);
-    if (!arg2) return 0;
-  }
-  arg3 = (int)jarg3; 
-  arg4 = (int)jarg4; 
-  result = (int)(arg1)->ASVideoDecodeEvent::dispayDataOnAndroid(arg2,arg3,arg4);
-  jresult = (jint)result; 
-  if (arg2) jenv->ReleaseStringUTFChars(jarg2, (const char *)arg2);
-  return jresult;
-}
-
-
 SWIGEXPORT void JNICALL Java_com_asnetwork_swig_AS_1Native_1PlayerJNI_ASVideoDecodeEvent_1isStart_1set(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jboolean jarg2) {
   ASVideoDecodeEvent *arg1 = (ASVideoDecodeEvent *) 0 ;
   bool arg2 ;
@@ -1457,7 +1234,7 @@ SWIGEXPORT void JNICALL Java_com_asnetwork_swig_AS_1Native_1PlayerJNI_swig_1modu
   static struct {
     const char *method;
     const char *signature;
-  } methods[7] = {
+  } methods[4] = {
     {
       "SwigDirector_IVideoDecodeCB_startVideoDecoding", "(Lcom/asnetwork/swig/IVideoDecodeCB;Z)I" 
     },
@@ -1465,19 +1242,10 @@ SWIGEXPORT void JNICALL Java_com_asnetwork_swig_AS_1Native_1PlayerJNI_swig_1modu
       "SwigDirector_IVideoDecodeCB_stopVideoDecoding", "(Lcom/asnetwork/swig/IVideoDecodeCB;Z)I" 
     },
     {
-      "SwigDirector_IVideoDecodeCB_recvDecodeData", "(Lcom/asnetwork/swig/IVideoDecodeCB;Ljava/lang/String;II)I" 
-    },
-    {
       "SwigDirector_ASVideoDecodeEvent_startVideoDecoding", "(Lcom/asnetwork/swig/ASVideoDecodeEvent;Z)I" 
     },
     {
       "SwigDirector_ASVideoDecodeEvent_stopVideoDecoding", "(Lcom/asnetwork/swig/ASVideoDecodeEvent;Z)I" 
-    },
-    {
-      "SwigDirector_ASVideoDecodeEvent_recvDecodeData", "(Lcom/asnetwork/swig/ASVideoDecodeEvent;Ljava/lang/String;II)I" 
-    },
-    {
-      "SwigDirector_ASVideoDecodeEvent_dispayDataOnAndroid", "(Lcom/asnetwork/swig/ASVideoDecodeEvent;Ljava/lang/String;II)I" 
     }
   };
   Swig::jclass_AS_Native_PlayerJNI = (jclass) jenv->NewGlobalRef(jcls);
@@ -1492,4 +1260,27 @@ SWIGEXPORT void JNICALL Java_com_asnetwork_swig_AS_1Native_1PlayerJNI_swig_1modu
 #ifdef __cplusplus
 }
 #endif
+
+JavaVM* g_cached_jvm = NULL;
+JNIEnv* g_cached_env = NULL;
+
+jint JNI_OnLoad(JavaVM *vm, void *reserved)
+{
+  g_cached_jvm = vm;
+  if (vm->GetEnv((void**)&g_cached_env, JNI_VERSION_1_6) != JNI_OK) {
+    return -1;
+  }
+  return JNI_VERSION_1_6;
+}
+
+JavaVM* JNI_GetVM()
+{
+  return g_cached_jvm;
+}
+
+JNIEnv* JNI_GetEnv()
+{
+  return g_cached_env;
+}
+
 

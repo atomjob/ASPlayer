@@ -30,7 +30,7 @@ int ASVideoDecodeEvent::stopVideoDecoding(bool isStop) {
 	return 1;
 }
 
-
+/*
 int ASVideoDecodeEvent::recvDecodeData(char* data, int width, int height) {
 	return dispayDataOnAndroid(data,width,height);
 }
@@ -42,4 +42,4 @@ int ASVideoDecodeEvent::dispayDataOnAndroid(char* data, int width,
 	LOGI("===> dispay data : width = %d, height = %d\n",width,height);
 	return 1;
 }
-
+*/

@@ -60,7 +60,8 @@ void ASVideoDecodeThread::decodeFunc(void* args) {
 									pFrameRGB->linesize);
 							*/
 							// save the frame to disk
-							videoDecodeParam->pVideoDecodeFuncCB->recvDecodeData((char*)pFrame->data,pFrame->width,pFrame->height);
+//							videoDecodeParam->pVideoDecodeFuncCB->recvDecodeData((char*)pFrame->data,pFrame->width,pFrame->height);
+							videoDecodeParam->display->display(pFrame,videoDecodeParam->pVideoCodecCtx);
 						}
 					}
 

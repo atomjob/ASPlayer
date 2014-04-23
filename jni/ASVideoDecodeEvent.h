@@ -18,7 +18,7 @@ public:
 	virtual int startVideoDecoding(bool isStart);
 	virtual int stopVideoDecoding(bool isStop);
 //	virtual int recvDecodeData(char *data,int width,int height);
-	virtual int dispayDataOnAndroid(char *data,int width,int height);
+//	virtual int dispayDataOnAndroid(char *data,int width,int height);
 
 public:
 	bool isStart;

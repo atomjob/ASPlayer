@@ -14,7 +14,7 @@
 
 #ifdef __ANDROID__
 #include <android/log.h>
-
+#include <jni.h>
     #define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, APP_NATIVE_TAG, __VA_ARGS__))
     #define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, APP_NATIVE_TAG, __VA_ARGS__))
     #define LOGE(...) ((void)__android_log_print(ANDROID_LOG_ERROR, APP_NATIVE_TAG, __VA_ARGS__))
