@@ -63,14 +63,6 @@ public class ASVideoDecodeEvent extends IVideoDecodeCB {
     return (getClass() == ASVideoDecodeEvent.class) ? AS_Native_PlayerJNI.ASVideoDecodeEvent_stopVideoDecoding(swigCPtr, this, isStop) : AS_Native_PlayerJNI.ASVideoDecodeEvent_stopVideoDecodingSwigExplicitASVideoDecodeEvent(swigCPtr, this, isStop);
   }
 
-  public int recvDecodeData(String data, int width, int height) {
-    return (getClass() == ASVideoDecodeEvent.class) ? AS_Native_PlayerJNI.ASVideoDecodeEvent_recvDecodeData(swigCPtr, this, data, width, height) : AS_Native_PlayerJNI.ASVideoDecodeEvent_recvDecodeDataSwigExplicitASVideoDecodeEvent(swigCPtr, this, data, width, height);
-  }
-
-  public int dispayDataOnAndroid(String data, int width, int height) {
-    return (getClass() == ASVideoDecodeEvent.class) ? AS_Native_PlayerJNI.ASVideoDecodeEvent_dispayDataOnAndroid(swigCPtr, this, data, width, height) : AS_Native_PlayerJNI.ASVideoDecodeEvent_dispayDataOnAndroidSwigExplicitASVideoDecodeEvent(swigCPtr, this, data, width, height);
-  }
-
   public void setIsStart(boolean value) {
     AS_Native_PlayerJNI.ASVideoDecodeEvent_isStart_set(swigCPtr, this, value);
   }

@@ -63,8 +63,4 @@ public class IVideoDecodeCB {
     return AS_Native_PlayerJNI.IVideoDecodeCB_stopVideoDecoding(swigCPtr, this, isStop);
   }
 
-  public int recvDecodeData(String data, int width, int height) {
-    return AS_Native_PlayerJNI.IVideoDecodeCB_recvDecodeData(swigCPtr, this, data, width, height);
-  }
-
 }

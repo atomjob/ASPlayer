@@ -85,6 +85,10 @@ public class ASNativePlayer {
     AS_Native_PlayerJNI.ASNativePlayer_setVideoDecodeListern__SWIG_1(swigCPtr, this);
   }
 
+  public void setDisplayHandle(Object handle) {
+    AS_Native_PlayerJNI.ASNativePlayer_setDisplayHandle(swigCPtr, this, handle);
+  }
+
   public void setIsOpenFile(int value) {
     AS_Native_PlayerJNI.ASNativePlayer_isOpenFile_set(swigCPtr, this, value);
   }
