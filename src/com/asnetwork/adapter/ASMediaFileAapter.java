@@ -62,7 +62,12 @@ public class ASMediaFileAapter<T extends ASMediaFile>
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		// TODO Auto-generated method stub
-		Intent intent = new Intent(cxt,ASFileDetailActivity.class);
+		Intent intent = new Intent(cxt,ASPlayerVideoActivity.class);
+		
+		intent.putExtra(Constants.MEDIA_FILE_NAME,
+				this.dataSource.get(position).getDATA());
+		cxt.startActivity(intent);
+		
 		/*ASNativePlayer player = ASNativePlayer.getInstance();
 		if(player.getIsOpenFile()>0){
 			player.releaseInstance();
@@ -73,12 +78,14 @@ public class ASMediaFileAapter<T extends ASMediaFile>
 		
 		intent.putExtra(Constants.MEDIA_FILE_NAME,description);
 		cxt.startActivity(intent);*/
-		ASNativePlayer player = ASNativePlayer.createNewInstance();
+		
+		/*ASNativePlayer player = ASNativePlayer.createNewInstance();
 		ASVideoDecodeRecv decodeRecv = new ASVideoDecodeRecv();
 		player.setVideoDecodeListern(decodeRecv);
 		player.ASOpenFile(this.dataSource.get(position).getDATA());
 		player.ASOpenCodec();
 		player.ASStartVideoDecode();
+		*/
 //		player.ASStopVideoDecode();
 //		ASNativePlayer.releaseInstance(player);
 		
