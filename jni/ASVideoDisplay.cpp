@@ -7,10 +7,7 @@
 
 #include "ASVideoDisplay.h"
 #include <string.h>
-#ifdef __ANDROID__
-#include <jni.h>
-#include <android/native_window_jni.h>
-#endif
+
 
 
 ASVideoDisplay::ASVideoDisplay():
@@ -18,11 +15,22 @@ yuvbuffer(0){
 #ifdef __ANDROID__
 	env =  JNI_GetEnv();
 	jvm = JNI_GetVM();
+	window = 0;
 #endif
 }
 
 ASVideoDisplay::~ASVideoDisplay() {
 	av_free(yuvbuffer);
+	if(window!=0){
+		ANativeWindow_release(window);
+		window = 0;
+	}
+	if(surface!=0){
+		LOGI("===>~ASVideoDisplay");
+//		env->DeleteGlobalRef(surface);
+		LOGI("~ASVideoDisplay===>");
+//		surface = 0;
+	}
 }
 
 
@@ -31,26 +39,29 @@ void ASVideoDisplay::display(void* data, int height, int width,
 #ifdef __ANDROID__
 	LOGI("===> ASVideoDisplay::display");
 	//Should AttachCurrentThread if not cause JNI ERROR: non-VM thread making JNI call
-	JavaVM* jvm = JNI_GetVM();
-	JNIEnv* env = NULL;
-	jint ret = jvm->GetEnv((void **)&env, JNI_VERSION_1_6);
+	if(env == 0){
+		jint ret = jvm->GetEnv((void **)&env, JNI_VERSION_1_6);
+	}
 	if( jvm->AttachCurrentThread(&env, NULL) < 0 ){
-		LOGW("AttachCurrent Thread failed !!!!");
+		LOGE("AttachCurrent Thread failed !!!!");
 		return;
 	}
 
-	if(surface == 0) return;
-	LOGI("AttachCurrent Thread succesfully !!!!");
-
-	ANativeWindow* window = ANativeWindow_fromSurface(env, this->surface);
+	if(surface == 0) {
+		LOGE("surface == 0 failed !!!!");
+		return;
+	}
+	if(window == 0){
+		window = ANativeWindow_fromSurface(env, surface);
+	}
 	ANativeWindow_setBuffersGeometry(window, 0, 0, WINDOW_FORMAT_RGBA_8888);
 	ANativeWindow_Buffer buffer;
 	if (ANativeWindow_lock(window, &buffer, 0) == 0) {
-	  memcpy(buffer.bits, data,  width * height * 2);
-	  ANativeWindow_unlockAndPost(window);
+		  memcpy(buffer.bits, data,  width * height * 2);
+		  ANativeWindow_unlockAndPost(window);
 	}
 
-	ANativeWindow_release(window);
+//	ANativeWindow_release(window);
 
 #endif
 }

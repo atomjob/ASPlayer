@@ -7,8 +7,12 @@
 
 #ifndef ASVIDEODISPLAY_H_
 #define ASVIDEODISPLAY_H_
+
+
 #ifdef __ANDROID__
+#include <jni.h>
 #include "ASLog.h"
+#include <android/native_window_jni.h>
 #endif
 
 //using namespace android;
@@ -43,6 +47,7 @@ public:
 	jobject surface;
 	JNIEnv* env;
 	JavaVM *jvm;
+	ANativeWindow* window;
 #endif
 	// RGB data to draw on window
 	void * yuvbuffer;
