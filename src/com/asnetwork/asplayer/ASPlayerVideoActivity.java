@@ -39,11 +39,11 @@ public class ASPlayerVideoActivity extends Activity implements SurfaceHolder.Cal
 			String mediaFileName = 
 					(String) this.getIntent().getExtras().
 							get(Constants.MEDIA_FILE_NAME);
-			ASVideoDecodeRecv decodeRecv = new ASVideoDecodeRecv();
+			ASVideoDecodeRecv decodeStateRecv = new ASVideoDecodeRecv();
 			player = ASNativePlayer.createNewInstance();
 			this.player.ASOpenFile(mediaFileName);
 			this.player.ASOpenCodec();
-			this.player.setVideoDecodeListern(decodeRecv);
+			this.player.setVideoDecodeListern(decodeStateRecv);
 			this.player.ASStartVideoDecode();
 //			return player;
 		}
