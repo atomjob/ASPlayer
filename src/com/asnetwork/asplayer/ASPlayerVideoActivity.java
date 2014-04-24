@@ -69,6 +69,7 @@ public class ASPlayerVideoActivity extends Activity implements SurfaceHolder.Cal
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
 		// TODO Auto-generated method stub
+//		player.setDisplayHandle(holder.getSurface());
 		
 	}
 

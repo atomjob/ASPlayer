@@ -51,6 +51,7 @@ void ASVideoDisplay::display(void* data, int height, int width,
 	}
 
 	ANativeWindow_release(window);
+
 #endif
 }
 #ifdef __ANDROID__
@@ -61,8 +62,6 @@ void ASVideoDisplay::setDisplayHandle(jobject surface) {
 }
 #endif
 AVFrame* ASVideoDisplay::convertColor(AVFrame* pFrame,AVCodecContext *codecCtx) {
-	// Allocate an AVFrame structure
-//		LOGI("convertColor ==>");
 		AVFrame* pFrameRGB = av_frame_alloc();
 
 		// Determine required buffer size and allocate buffer
@@ -87,7 +86,7 @@ AVFrame* ASVideoDisplay::convertColor(AVFrame* pFrame,AVCodecContext *codecCtx) 
 		avpicture_fill((AVPicture*)pFrameRGB,(uint8_t*)yuvbuffer,AV_PIX_FMT_RGBA,
 				pFrame->width,pFrame->height);
 
-					// Convert the image from its native format to RGB
+		// Convert the image from its native format to RGBA
 		sws_scale(sws_ctx,(uint8_t const * const *)pFrame->data,
 					pFrame->linesize,0,
 					pFrame->height,
@@ -99,13 +98,7 @@ AVFrame* ASVideoDisplay::convertColor(AVFrame* pFrame,AVCodecContext *codecCtx) 
 void ASVideoDisplay::display(AVFrame* pFrame,AVCodecContext *codecCtx) {
 	static int count = 0;
 	AVFrame* pFrameRGB = convertColor(pFrame,codecCtx);
-//	static int count = 0;
-//	printf("display count = %d width=%d height=%d\n",count,pFrameRGB->width,
-//			pFrameRGB->height);
-	count++;
-//	LOGI("====> count = %d\n",count);
 	if(yuvbuffer!=0){
-//		LOGI("====> yuvbuffer!=0 =====>\n");
 		display(yuvbuffer,pFrame->width,pFrame->height,0);
 	}
 

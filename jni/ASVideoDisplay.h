@@ -42,6 +42,7 @@ public:
 public:
 	jobject surface;
 	JNIEnv* env;
+	JavaVM *jvm;
 #endif
 	// RGB data to draw on window
 	void * yuvbuffer;
