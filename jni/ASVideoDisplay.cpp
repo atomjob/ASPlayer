@@ -43,6 +43,7 @@ void ASVideoDisplay::display(void* data, int height, int width,
 	LOGI("AttachCurrent Thread succesfully !!!!");
 
 	ANativeWindow* window = ANativeWindow_fromSurface(env, this->surface);
+	ANativeWindow_setBuffersGeometry(window, 0, 0, WINDOW_FORMAT_RGBA_8888);
 	ANativeWindow_Buffer buffer;
 	if (ANativeWindow_lock(window, &buffer, 0) == 0) {
 	  memcpy(buffer.bits, data,  width * height * 2);
@@ -65,7 +66,7 @@ AVFrame* ASVideoDisplay::convertColor(AVFrame* pFrame,AVCodecContext *codecCtx) 
 		AVFrame* pFrameRGB = av_frame_alloc();
 
 		// Determine required buffer size and allocate buffer
-		int numBytes = avpicture_get_size(AV_PIX_FMT_RGB24,pFrame->width,
+		int numBytes = avpicture_get_size(AV_PIX_FMT_RGBA,pFrame->width,
 				pFrame->height);
 		if(yuvbuffer == 0){
 			yuvbuffer = (uint8_t*)av_malloc(numBytes*sizeof(uint8_t));
@@ -77,13 +78,13 @@ AVFrame* ASVideoDisplay::convertColor(AVFrame* pFrame,AVCodecContext *codecCtx) 
 				codecCtx->pix_fmt,
 				pFrame->width,
 				pFrame->height,
-				AV_PIX_FMT_RGB24,
+				AV_PIX_FMT_RGBA,
 				SWS_BILINEAR,
 				NULL,NULL,NULL);
 
 		// Assign appropriate parts of buffers to image planes in pFrameRGB
 		// Note the pFrameRGB in an AVFrame is a superset of AVPicture
-		avpicture_fill((AVPicture*)pFrameRGB,(uint8_t*)yuvbuffer,AV_PIX_FMT_RGB24,
+		avpicture_fill((AVPicture*)pFrameRGB,(uint8_t*)yuvbuffer,AV_PIX_FMT_RGBA,
 				pFrame->width,pFrame->height);
 
 					// Convert the image from its native format to RGB
