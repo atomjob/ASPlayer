@@ -18,7 +18,9 @@ extern "C"{
 }
 #include "IVideoDecodeCB.h"
 #include "ASVideoDisplay.h"
-//typedef int (*recvDecodeFuncCb)(char* data, int width, int height);
+#ifdef __ANDROID__
+#include "jni.h"
+#endif
 
 typedef struct VideoDecodeParam{
 		AVFormatContext *pFormatCtx;

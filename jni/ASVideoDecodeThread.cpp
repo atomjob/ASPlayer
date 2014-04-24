@@ -36,15 +36,18 @@ void ASVideoDecodeThread::decodeFunc(void* args) {
 			videoDecodeParam->pVideoCodec!=NULL &&
 			videoDecodeParam->videoStream !=-1){
 
+			// Exit thread when receive signal
 			int i = 0;
 			int frameFinished = 0;
 			AVPacket packet;
 			// Allocate video frame
 			AVFrame * pFrame = av_frame_alloc();
 
-				while(videoDecodeParam != 0 &&
-						av_read_frame(videoDecodeParam->pFormatCtx,&packet)>=0 &&
-						videoDecodeParam->isRunning){
+				while(videoDecodeParam != 0 && videoDecodeParam->isRunning
+						&& av_read_frame(videoDecodeParam->pFormatCtx,&packet)>=0){
+					 LOGI("==>videoDecodeParam->isRunning = %d",videoDecodeParam->isRunning);
+
+
 					// Is this a packet from the video stream
 					if(packet.stream_index == videoDecodeParam->videoStream){
 						// Decode video frame
@@ -69,8 +72,14 @@ void ASVideoDecodeThread::decodeFunc(void* args) {
 					av_free_packet(&packet);
 				}
 				videoDecodeParam->pVideoDecodeFuncCB->stopVideoDecoding(true);
-				videoDecodeParam->isRunning = false;
-
+				LOGI("after pVideoDecodeFuncCB->stopVideoDecoding");
+//				videoDecodeParam->isRunning = false;
+				// exit thread
+				// before exit thread should
+				JavaVM * g_jvm = videoDecodeParam->display->jvm;
+				if(g_jvm!=0){
+					g_jvm->DetachCurrentThread();
+				}
 	}
 
 }
