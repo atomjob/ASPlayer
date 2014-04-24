@@ -1,5 +1,11 @@
 #include "ASPlayer.h"
 
+#ifdef __ANDROID__
+extern JNIEnv* JNI_GetEnv();
+extern JavaVM* JNI_GetVM();
+
+#endif
+
 ASNativePlayer* ASNativePlayer::instance = NULL;
 ASNativePlayer* ASNativePlayer::getInstance() {
 	if (instance == NULL) {
@@ -27,6 +33,7 @@ ASNativePlayer::ASNativePlayer() :
 
 ASNativePlayer::~ASNativePlayer() {
 
+	LOGI("==>ASNativePlayer::~ASNativePlayer");
 	if (pVideoCodecCtx != NULL) {
 		avcodec_close(pVideoCodecCtx);
 		pVideoCodecCtx = NULL;
@@ -47,6 +54,7 @@ ASNativePlayer::~ASNativePlayer() {
 	if (videoDecodeThread != 0) {
 		delete videoDecodeThread;
 	}
+	LOGI("ASNativePlayer::~ASNativePlayer==>");
 }
 
 int ASNativePlayer::ASOpenFile(char* filename) {
@@ -212,6 +220,7 @@ int ASNativePlayer::ASStartVideoDecode() {
 }
 
 int ASNativePlayer::ASStopVideoDecode() {
+	this->isDecoding = false;
 	if (videoDecodeEeventListern != 0) {
 		videoDecodeEeventListern->stopVideoDecoding(true);
 	}
@@ -238,5 +247,8 @@ void ASNativePlayer::releaseInstance(ASNativePlayer* instance) {
 }
 
 void ASNativePlayer::setDisplayHandle(jobject handle) {
-	this->videoDisplay.surface = handle;
+//	this->videoDisplay.surface = handle;
+	JNIEnv* env = JNI_GetEnv();
+	LOGI("setDisplayHandle NewGlobalRef ");
+	this->videoDisplay.surface = (jobject)env->NewGlobalRef(handle);
 }
