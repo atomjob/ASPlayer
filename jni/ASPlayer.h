@@ -8,6 +8,10 @@
 #ifndef ASPLAYER_H_
 #define ASPLAYER_H_
 
+//#ifndef __ANDROID__
+//#define __ANDROID__
+//#endif
+
 #ifdef __ANDROID__
 #include <jni.h>
 #endif
@@ -18,6 +22,7 @@
 extern "C"{
 #include <stdio.h>
 #include <unistd.h>
+#include <pthread.h>
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 #include <libswscale/swscale.h>
@@ -68,7 +73,8 @@ private:
 	// videoDecodeCallBack
 	IVideoDecodeCB	*videoDecodeEeventListern;
 	ASVideoDecodeThread		*videoDecodeThread;
-	ASVideoDisplay  videoDisplay;
+	ASVideoDisplay*  videoDisplay;
+	pthread_mutex_t decodeMutex;
 };
 
 

@@ -26,8 +26,10 @@ ASNativePlayer::ASNativePlayer() :
 				NULL), pVideoCodec(NULL), pAudioCodecCtx(NULL), pAudioCodec(
 				NULL), pSourceFile(NULL), audioOptionsDict(NULL), videoOptionsDict(
 				NULL), isOpenFile(0), isDecoding(false), videoDecodeEeventListern(
-				0),videoDisplay() {
+				0){
 	av_register_all();
+	pthread_mutex_init(&decodeMutex,0);
+	videoDisplay = new ASVideoDisplay();
 	videoDecodeThread = new ASVideoDecodeThread();
 }
 
@@ -37,15 +39,18 @@ ASNativePlayer::~ASNativePlayer() {
 	if (pVideoCodecCtx != NULL) {
 		avcodec_close(pVideoCodecCtx);
 		pVideoCodecCtx = NULL;
+		LOGI("==>ASNativePlayer::~ASNativePlayer pVideoCodecCtx clean");
 	}
 
 	if (pAudioCodecCtx != NULL) {
 		avcodec_close(pAudioCodecCtx);
 		pAudioCodecCtx = NULL;
+		LOGI("==>ASNativePlayer::~ASNativePlayer pAudioCodecCtx clean");
 	}
 
 	if (pFormatCtx != NULL) {
 		avformat_close_input(&pFormatCtx);
+		LOGI("==>ASNativePlayer::~ASNativePlayer avformat_close_input");
 	}
 	isOpenFile = 0;
 	isDecoding = false;
@@ -53,7 +58,13 @@ ASNativePlayer::~ASNativePlayer() {
 
 	if (videoDecodeThread != 0) {
 		delete videoDecodeThread;
+		LOGI("==>ASNativePlayer::~ASNativePlayer delete videoDecodeThread");
 	}
+	if(videoDisplay!=0){
+		delete videoDisplay;
+		videoDisplay = 0;
+	}
+	pthread_mutex_destroy(&decodeMutex);
 	LOGI("ASNativePlayer::~ASNativePlayer==>");
 }
 
@@ -209,10 +220,10 @@ int ASNativePlayer::ASStartVideoDecode() {
 			param->pVideoCodec = pVideoCodec;
 			param->pVideoCodecCtx = pVideoCodecCtx;
 			param->pVideoDecodeFuncCB = videoDecodeEeventListern;
-			param->display = &videoDisplay;
+			param->display = videoDisplay;
+			param->decodeStateMutex = &decodeMutex;
 			isDecoding = true;
 			videoDecodeThread->startDecodeThread(param);
-
 			videoDecodeEeventListern->startVideoDecoding(true);
 		}
 
@@ -220,7 +231,9 @@ int ASNativePlayer::ASStartVideoDecode() {
 }
 
 int ASNativePlayer::ASStopVideoDecode() {
+	pthread_mutex_lock(&decodeMutex);
 	this->isDecoding = false;
+	pthread_mutex_unlock(&decodeMutex);
 	if (videoDecodeEeventListern != 0) {
 		videoDecodeEeventListern->stopVideoDecoding(true);
 	}
@@ -250,5 +263,5 @@ void ASNativePlayer::setDisplayHandle(jobject handle) {
 //	this->videoDisplay.surface = handle;
 	JNIEnv* env = JNI_GetEnv();
 	LOGI("setDisplayHandle NewGlobalRef ");
-	this->videoDisplay.surface = (jobject)env->NewGlobalRef(handle);
+	this->videoDisplay->surface = (jobject)env->NewGlobalRef(handle);
 }
