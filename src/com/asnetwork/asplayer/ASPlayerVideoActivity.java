@@ -14,7 +14,7 @@ import android.view.View;
 public class ASPlayerVideoActivity extends Activity implements SurfaceHolder.Callback{
 	private SurfaceView videoSurfaceView;
 	private ASNativePlayer player = null;
-	
+	public static ASVideoDecodeRecv decodeStateRecv = new ASVideoDecodeRecv();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -39,8 +39,9 @@ public class ASPlayerVideoActivity extends Activity implements SurfaceHolder.Cal
 			String mediaFileName = 
 					(String) this.getIntent().getExtras().
 							get(Constants.MEDIA_FILE_NAME);
-			ASVideoDecodeRecv decodeStateRecv = new ASVideoDecodeRecv();
+			
 			player = ASNativePlayer.createNewInstance();
+			decodeStateRecv.setPlayer(player);
 			this.player.ASOpenFile(mediaFileName);
 			this.player.ASOpenCodec();
 			this.player.setVideoDecodeListern(decodeStateRecv);
@@ -62,14 +63,14 @@ public class ASPlayerVideoActivity extends Activity implements SurfaceHolder.Cal
 	public void surfaceCreated(SurfaceHolder holder) {
 		// TODO Auto-generated method stub
 		initNativePlayer();
-		player.setDisplayHandle(holder.getSurface());
+//		player.setDisplayHandle(holder.getSurface());
 	}
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
 		// TODO Auto-generated method stub
-//		player.setDisplayHandle(holder.getSurface());
+		player.setDisplayHandle(holder.getSurface());
 		
 	}
 
@@ -78,8 +79,8 @@ public class ASPlayerVideoActivity extends Activity implements SurfaceHolder.Cal
 		// TODO Auto-generated method stub
 		if(player!=null){
 			player.setIsDecoding(false);
-			ASNativePlayer.releaseInstance(player);
-			player = null;
+			//ASNativePlayer.releaseInstance(player);
+			//player = null;
 		}
 	}
 }
