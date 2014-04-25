@@ -20,17 +20,24 @@ yuvbuffer(0){
 }
 
 ASVideoDisplay::~ASVideoDisplay() {
-	av_free(yuvbuffer);
+
+	/*window = ANativeWindow_fromSurface(env, surface);*/
 	if(window!=0){
 		ANativeWindow_release(window);
 		window = 0;
 	}
 	if(surface!=0){
-		LOGI("===>~ASVideoDisplay");
-//		env->DeleteGlobalRef(surface);
-		LOGI("~ASVideoDisplay===>");
-//		surface = 0;
+		/*
+		 LOGI("===>~ASVideoDisplay surface!=0");
+		if(env!=0){
+			env->DeleteGlobalRef(surface);
+			LOGI("===>~ASVideoDisplay surface!=0 env!=0");
+		}
+		LOGI("===>~ASVideoDisplay surface!=0 env==0");
+		LOGI("~ASVideoDisplay surface!=0 ===> ");
+		*/
 	}
+	av_free(yuvbuffer);
 }
 
 
@@ -38,11 +45,21 @@ void ASVideoDisplay::display(void* data, int height, int width,
 		int size) {
 #ifdef __ANDROID__
 	LOGI("===> ASVideoDisplay::display");
+	if(jvm == 0){
+		LOGI("===> ASVideoDisplay::display jvm == 0");
+		return;
+	}
+	jint ret;
 	//Should AttachCurrentThread if not cause JNI ERROR: non-VM thread making JNI call
 	if(env == 0){
-		jint ret = jvm->GetEnv((void **)&env, JNI_VERSION_1_6);
+		ret = jvm->GetEnv((void **)&env, JNI_VERSION_1_6);
 	}
-	if( jvm->AttachCurrentThread(&env, NULL) < 0 ){
+	if(ret<0)
+	{
+		LOGI("===> ASVideoDisplay::get jvm->GetEnv failed");
+		return;
+	}
+	if(jvm->AttachCurrentThread(&env, NULL) < 0 ){
 		LOGE("AttachCurrent Thread failed !!!!");
 		return;
 	}
@@ -54,6 +71,8 @@ void ASVideoDisplay::display(void* data, int height, int width,
 	if(window == 0){
 		window = ANativeWindow_fromSurface(env, surface);
 	}
+	if(window == 0) return;
+
 	ANativeWindow_setBuffersGeometry(window, 0, 0, WINDOW_FORMAT_RGBA_8888);
 	ANativeWindow_Buffer buffer;
 	if (ANativeWindow_lock(window, &buffer, 0) == 0) {
@@ -107,7 +126,7 @@ AVFrame* ASVideoDisplay::convertColor(AVFrame* pFrame,AVCodecContext *codecCtx) 
 }
 
 void ASVideoDisplay::display(AVFrame* pFrame,AVCodecContext *codecCtx) {
-	static int count = 0;
+	if(pFrame == 0) return;
 	AVFrame* pFrameRGB = convertColor(pFrame,codecCtx);
 	if(yuvbuffer!=0){
 		display(yuvbuffer,pFrame->width,pFrame->height,0);
