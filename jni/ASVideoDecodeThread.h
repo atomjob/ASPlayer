@@ -11,6 +11,7 @@
 extern "C"{
 #include<stdio.h>
 #include <unistd.h>
+#include <pthread.h>
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 #include <libswscale/swscale.h>
@@ -22,6 +23,7 @@ extern "C"{
 #include "jni.h"
 #endif
 
+
 typedef struct VideoDecodeParam{
 		AVFormatContext *pFormatCtx;
 		int 			 audioStream,videoStream;
@@ -29,6 +31,9 @@ typedef struct VideoDecodeParam{
 		AVCodec			*pVideoCodec;
 		IVideoDecodeCB *pVideoDecodeFuncCB;
 		bool 			*isRunning;
+
+		// decodeStateMutex is sync isRunning read/write in different thread
+		pthread_mutex_t *decodeStateMutex;
 		ASVideoDisplay	*display;
 } *pVideoDecodeParam;
 
