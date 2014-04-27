@@ -7,11 +7,13 @@ import com.asnetwork.swig.ASNativePlayer;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
 public class ASPlayerVideoActivity extends Activity implements SurfaceHolder.Callback{
+	public final static String TAG = "ASPlayerVideoActivity";
 	private SurfaceView videoSurfaceView;
 	private ASNativePlayer player = null;
 	public static ASVideoDecodeRecv decodeStateRecv = new ASVideoDecodeRecv();
@@ -42,8 +44,22 @@ public class ASPlayerVideoActivity extends Activity implements SurfaceHolder.Cal
 			
 			player = ASNativePlayer.createNewInstance();
 			decodeStateRecv.setPlayer(player);
-			this.player.ASOpenFile(mediaFileName);
-			this.player.ASOpenCodec();
+			int rect = this.player.ASOpenFile(mediaFileName);
+			if(rect < 0) {
+				ASNativePlayer.releaseInstance(player);
+				Log.e(TAG,"ASOpenFile failed!!!");
+				return;
+			}
+			
+			rect = this.player.ASOpenCodec();
+			if(rect < 0){
+				ASNativePlayer.releaseInstance(player);
+				Log.e(TAG,"ASOpenCodec failed!!!");
+				return;
+			}else{
+				String infoString = player.getMediaSimpleInfo();
+				Log.i(TAG,infoString);
+			}
 			this.player.setVideoDecodeListern(decodeStateRecv);
 			this.player.ASStartVideoDecode();
 //			return player;
