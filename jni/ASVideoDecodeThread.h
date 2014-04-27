@@ -26,10 +26,10 @@ extern "C"{
 
 typedef struct VideoDecodeParam{
 		AVFormatContext *pFormatCtx;
-		int 			 audioStream,videoStream;
+		int 			audioStream,videoStream;
 		AVCodecContext	*pVideoCodecCtx;
 		AVCodec			*pVideoCodec;
-		IVideoDecodeCB *pVideoDecodeFuncCB;
+		IVideoDecodeCB  *pVideoDecodeFuncCB;
 		bool 			*isRunning;
 
 		// decodeStateMutex is sync isRunning read/write in different thread

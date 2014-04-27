@@ -38,6 +38,7 @@ public:
 	virtual void display(void *data,int height,int width,int size);
 	virtual void display(AVFrame* pFrame,AVCodecContext *codecCtx);
 	AVFrame* convertColor(AVFrame* pFrame,AVCodecContext *codecCtx);
+	void getDestScreen(int *width,int *height);
 #ifdef __ANDROID__
 	virtual void setDisplayHandle(jobject surface);
 #endif

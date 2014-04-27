@@ -76,7 +76,7 @@ void ASVideoDisplay::display(void* data, int height, int width,
 	ANativeWindow_setBuffersGeometry(window, 0, 0, WINDOW_FORMAT_RGBA_8888);
 	ANativeWindow_Buffer buffer;
 	if (ANativeWindow_lock(window, &buffer, 0) == 0) {
-		  memcpy(buffer.bits, data,  width * height * 2);
+		  memcpy(buffer.bits, data,  width * height * 4);
 		  ANativeWindow_unlockAndPost(window);
 	}
 
@@ -132,4 +132,13 @@ void ASVideoDisplay::display(AVFrame* pFrame,AVCodecContext *codecCtx) {
 		display(yuvbuffer,pFrame->width,pFrame->height,0);
 	}
 
+}
+
+void ASVideoDisplay::getDestScreen(int* width, int* heigth) {
+#ifdef __ANDROID__
+	if(window!=0){
+		*width = ANativeWindow_getWidth(window);
+		*heigth = ANativeWindow_getHeight(window);
+	}
+#endif
 }
