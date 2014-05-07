@@ -29,17 +29,3 @@ int ASVideoDecodeEvent::stopVideoDecoding(bool isStop) {
 	isStart = false;
 	return 1;
 }
-
-/*
-int ASVideoDecodeEvent::recvDecodeData(char* data, int width, int height) {
-	return dispayDataOnAndroid(data,width,height);
-}
-
-int ASVideoDecodeEvent::dispayDataOnAndroid(char* data, int width,
-		int height) {
-	// display YUV data on Android
-	printf("===> dispay data : width = %d, height = %d\n",width,height);
-	LOGI("===> dispay data : width = %d, height = %d\n",width,height);
-	return 1;
-}
-*/

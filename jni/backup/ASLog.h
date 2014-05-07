@@ -19,13 +19,10 @@
     #define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, APP_NATIVE_TAG, __VA_ARGS__))
     #define LOGE(...) ((void)__android_log_print(ANDROID_LOG_ERROR, APP_NATIVE_TAG, __VA_ARGS__))
 #else
-    #define LOGI(...) (printf("%s %s %s \n",LOG_INFO, APP_NATIVE_TAG, __VA_ARGS__))
-    #define LOGW(...) (printf("%s %s %s \n",LOG_INFO, APP_NATIVE_TAG, __VA_ARGS__))
-    #define LOGE(...) (printf("%s %s %s \n",LOG_ERROR, APP_NATIVE_TAG, __VA_ARGS__))
+    #define LOGI(...) (printf("%s ",LOG_INFO, APP_NATIVE_TAG, __VA_ARGS__))
+    #define LOGW(...) (printf("%s ",LOG_WARN, APP_NATIVE_TAG, __VA_ARGS__))
+    #define LOGE(...) (printf("%s ",LOG_ERROR, APP_NATIVE_TAG, __VA_ARGS__))
 #endif
-
-
-
 
 
 #endif /* ASLOG_H_ */

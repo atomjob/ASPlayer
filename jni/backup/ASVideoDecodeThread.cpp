@@ -43,17 +43,16 @@ void ASVideoDecodeThread::decodeFunc(void* args) {
 
 			while (av_read_frame(videoDecodeParam->pFormatCtx, &packet) >= 0) {
 				pthread_mutex_lock(videoDecodeParam->decodeStateMutex);
-					LOGI("==>videoDecodeParam->isRunning = %d",
-									*videoDecodeParam->isRunning);
+//					LOGI("==>videoDecodeParam->isRunning = %d",
+//									*videoDecodeParam->isRunning);
 				// Is this a packet from the video stream
 				if (packet.stream_index == videoDecodeParam->videoStream) {
-					LOGI("==>av_read_frame 02");
+//					LOGI("==>av_read_frame 02");
 					// Decode video frame
 					avcodec_decode_video2(videoDecodeParam->pVideoCodecCtx,
 							pFrame, &frameFinished, &packet);
 					// Did we get a video freame ?
 					if (frameFinished) {
-						LOGI("==>av_read_frame 03");
 						videoDecodeParam->display->display(pFrame,
 								videoDecodeParam->pVideoCodecCtx);
 					}

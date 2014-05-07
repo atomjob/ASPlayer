@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.asnetwork.asplayer.*;
 import com.asnetwork.common.Constants;
 import com.asnetwork.domain.ASMediaFile;
-import com.asnetwork.receiver.ASVideoDecodeRecv;
 import com.asnetwork.swig.ASNativePlayer;
 
 public class ASMediaFileAapter<T extends ASMediaFile> 
@@ -54,9 +53,6 @@ public class ASMediaFileAapter<T extends ASMediaFile>
 		public TextView textView;
 		public ImageView imageView;
 	}
-
-
-
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,

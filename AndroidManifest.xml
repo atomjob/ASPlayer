@@ -23,6 +23,9 @@
         </activity>
         
         <activity  android:name="com.asnetwork.asplayer.ASFileDetailActivity"></activity>
+        <activity  android:name="com.asnetwork.asplayer.ASPlayerVideoActivity"
+            android:screenOrientation="landscape"></activity>
+    	
     </application>
 
 </manifest>

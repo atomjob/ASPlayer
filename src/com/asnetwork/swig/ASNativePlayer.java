@@ -35,74 +35,62 @@ public class ASNativePlayer {
     }
   }
 
-  public static ASNativePlayer getInstance() {
-    long cPtr = AS_Native_PlayerJNI.ASNativePlayer_getInstance();
-    return (cPtr == 0) ? null : new ASNativePlayer(cPtr, false);
-  }
-
   public static ASNativePlayer createNewInstance() {
-    long cPtr = AS_Native_PlayerJNI.ASNativePlayer_createNewInstance();
+    long cPtr = AS_Native_PlayerJNI.ASNativePlayer_createNewInstance__SWIG_0();
     return (cPtr == 0) ? null : new ASNativePlayer(cPtr, false);
   }
 
-  public static void releaseInstance() {
-    AS_Native_PlayerJNI.ASNativePlayer_releaseInstance__SWIG_0();
+  public static ASNativePlayer createNewInstance(String filename) {
+    long cPtr = AS_Native_PlayerJNI.ASNativePlayer_createNewInstance__SWIG_1(filename);
+    return (cPtr == 0) ? null : new ASNativePlayer(cPtr, false);
   }
 
   public static void releaseInstance(ASNativePlayer instance) {
-    AS_Native_PlayerJNI.ASNativePlayer_releaseInstance__SWIG_1(ASNativePlayer.getCPtr(instance), instance);
+    AS_Native_PlayerJNI.ASNativePlayer_releaseInstance(ASNativePlayer.getCPtr(instance), instance);
+  }
+
+  public ASNativePlayer(String filename) {
+    this(AS_Native_PlayerJNI.new_ASNativePlayer__SWIG_0(filename), true);
   }
 
   public ASNativePlayer() {
-    this(AS_Native_PlayerJNI.new_ASNativePlayer(), true);
+    this(AS_Native_PlayerJNI.new_ASNativePlayer__SWIG_1(), true);
   }
 
-  public int ASOpenFile(String filename) {
-    return AS_Native_PlayerJNI.ASNativePlayer_ASOpenFile(swigCPtr, this, filename);
+  public int play() {
+    return AS_Native_PlayerJNI.ASNativePlayer_play(swigCPtr, this);
   }
 
-  public int ASOpenCodec() {
-    return AS_Native_PlayerJNI.ASNativePlayer_ASOpenCodec(swigCPtr, this);
+  public int stop() {
+    return AS_Native_PlayerJNI.ASNativePlayer_stop(swigCPtr, this);
   }
 
-  public int ASStartVideoDecode() {
-    return AS_Native_PlayerJNI.ASNativePlayer_ASStartVideoDecode(swigCPtr, this);
+  public int pause() {
+    return AS_Native_PlayerJNI.ASNativePlayer_pause(swigCPtr, this);
   }
 
-  public int ASStopVideoDecode() {
-    return AS_Native_PlayerJNI.ASNativePlayer_ASStopVideoDecode(swigCPtr, this);
+  public int end() {
+    return AS_Native_PlayerJNI.ASNativePlayer_end(swigCPtr, this);
   }
 
-  public String getMediaSimpleInfo() {
-    return AS_Native_PlayerJNI.ASNativePlayer_getMediaSimpleInfo(swigCPtr, this);
+  public void setVideoInputListener(ASVideoInputEvent eventListener) {
+    AS_Native_PlayerJNI.ASNativePlayer_setVideoInputListener(swigCPtr, this, ASVideoInputEvent.getCPtr(eventListener), eventListener);
   }
 
-  public void setVideoDecodeListern(IVideoDecodeCB handle) {
-    AS_Native_PlayerJNI.ASNativePlayer_setVideoDecodeListern__SWIG_0(swigCPtr, this, IVideoDecodeCB.getCPtr(handle), handle);
+  public void setState(ASPlayState value) {
+    AS_Native_PlayerJNI.ASNativePlayer_state_set(swigCPtr, this, value.swigValue());
   }
 
-  public void setVideoDecodeListern() {
-    AS_Native_PlayerJNI.ASNativePlayer_setVideoDecodeListern__SWIG_1(swigCPtr, this);
+  public ASPlayState getState() {
+    return ASPlayState.swigToEnum(AS_Native_PlayerJNI.ASNativePlayer_state_get(swigCPtr, this));
   }
 
-  public void setDisplayHandle(Object handle) {
-    AS_Native_PlayerJNI.ASNativePlayer_setDisplayHandle(swigCPtr, this, handle);
+  public void setFilename(String value) {
+    AS_Native_PlayerJNI.ASNativePlayer_filename_set(swigCPtr, this, value);
   }
 
-  public void setIsOpenFile(int value) {
-    AS_Native_PlayerJNI.ASNativePlayer_isOpenFile_set(swigCPtr, this, value);
-  }
-
-  public int getIsOpenFile() {
-    return AS_Native_PlayerJNI.ASNativePlayer_isOpenFile_get(swigCPtr, this);
-  }
-
-  public void setIsDecoding(boolean value) {
-    AS_Native_PlayerJNI.ASNativePlayer_isDecoding_set(swigCPtr, this, value);
-  }
-
-  public boolean getIsDecoding() {
-    return AS_Native_PlayerJNI.ASNativePlayer_isDecoding_get(swigCPtr, this);
+  public String getFilename() {
+    return AS_Native_PlayerJNI.ASNativePlayer_filename_get(swigCPtr, this);
   }
 
 }

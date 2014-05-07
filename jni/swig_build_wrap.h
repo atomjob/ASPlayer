@@ -11,36 +11,42 @@
 #ifndef SWIG_AS_Native_Player_WRAP_H_
 #define SWIG_AS_Native_Player_WRAP_H_
 
-class SwigDirector_IVideoDecodeCB : public IVideoDecodeCB, public Swig::Director {
+class SwigDirector_ASVideoInputEvent : public ASVideoInputEvent, public Swig::Director {
 
 public:
     void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
-    SwigDirector_IVideoDecodeCB(JNIEnv *jenv);
-    virtual ~SwigDirector_IVideoDecodeCB();
-    virtual int startVideoDecoding(bool isStart);
-    virtual int stopVideoDecoding(bool isStop);
+    SwigDirector_ASVideoInputEvent(JNIEnv *jenv);
+    virtual ~SwigDirector_ASVideoInputEvent();
+    virtual void videoOpened(VideoInputParam *para);
+    virtual void videoStarted(VideoInputParam *para);
+    virtual void videoStopped(VideoInputParam *para);
+    virtual void videoClosed(VideoInputParam *para);
+    virtual void setVideoInput(ASVideoInput *videoInput);
 public:
     bool swig_overrides(int n) {
-      return (n < 2 ? swig_override[n] : false);
+      return (n < 5 ? swig_override[n] : false);
     }
 protected:
-    bool swig_override[2];
+    bool swig_override[5];
 };
 
-class SwigDirector_ASVideoDecodeEvent : public ASVideoDecodeEvent, public Swig::Director {
+class SwigDirector_ASMediaFileSourceEvent : public ASMediaFileSourceEvent, public Swig::Director {
 
 public:
     void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
-    SwigDirector_ASVideoDecodeEvent(JNIEnv *jenv);
-    virtual ~SwigDirector_ASVideoDecodeEvent();
-    virtual int startVideoDecoding(bool isStart);
-    virtual int stopVideoDecoding(bool isStop);
+    SwigDirector_ASMediaFileSourceEvent(JNIEnv *jenv);
+    virtual ~SwigDirector_ASMediaFileSourceEvent();
+    virtual void videoOpened(VideoInputParam *para);
+    virtual void videoStarted(VideoInputParam *para);
+    virtual void videoStopped(VideoInputParam *para);
+    virtual void videoClosed(VideoInputParam *para);
+    virtual void setVideoInput(ASVideoInput *videoInput);
 public:
     bool swig_overrides(int n) {
-      return (n < 2 ? swig_override[n] : false);
+      return (n < 5 ? swig_override[n] : false);
     }
 protected:
-    bool swig_override[2];
+    bool swig_override[5];
 };
 
 

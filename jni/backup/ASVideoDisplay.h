@@ -37,7 +37,7 @@ public:
 	virtual ~ASVideoDisplay();
 	virtual void display(void *data,int height,int width,int size);
 	virtual void display(AVFrame* pFrame,AVCodecContext *codecCtx);
-	AVFrame* convertColor(AVFrame* pFrame,AVCodecContext *codecCtx);
+	AVFrame* convertColorAndResize(AVFrame* pFrame,AVCodecContext *codecCtx);
 	void getDestScreen(int *width,int *height);
 #ifdef __ANDROID__
 	virtual void setDisplayHandle(jobject surface);
@@ -52,6 +52,8 @@ public:
 #endif
 	// RGB data to draw on window
 	void * yuvbuffer;
+	int width_output;
+	int heigth_output;
 };
 
 #endif /* ASVIDEODISPLAY_H_ */

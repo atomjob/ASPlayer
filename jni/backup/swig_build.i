@@ -11,16 +11,12 @@ typedef std::string String;
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 #include <libswscale/swscale.h>
-#include "ASLog.h"
 #include "ASPlayer.h"
-#include "ASVideoInput.h"
-#include "ASMediaFileSource.h"
-#include "ASMediaFileSourceEvent.h"
-#include "ASVideoOutput.h"
+#include "IVideoDecodeCB.h"
+#include "ASVideoDecodeEvent.h"
 %}
-
-%feature("director") ASVideoInputEvent;
-%feature("director") ASMediaFileSourceEvent;
+%feature("director") IVideoDecodeCB;
+%feature("director") ASVideoDecodeEvent;
 %feature("director") ASPlayer;
 
 
@@ -49,6 +45,5 @@ typedef std::string String;
 %}
 
 %include "ASPlayer.h"
-%include "ASVideoInput.h"
-%include "ASMediaFileSourceEvent.h"
-
+%include "IVideoDecodeCB.h"
+%include "ASVideoDecodeEvent.h"

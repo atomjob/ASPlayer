@@ -7,74 +7,43 @@
 
 #ifndef ASPLAYER_H_
 #define ASPLAYER_H_
+#include "ASCommon.h"
+#include "ASVideoInput.h"
+#include "ASVideoOutput.h"
+#include "ASMediaFileSourceEvent.h"
+#include "ASMediaFileSource.h"
 
-//#ifndef __ANDROID__
-//#define __ANDROID__
-//#endif
+enum ASPlayState{
+	PLAYER_INIT,
+	PLAYER_PAUSED,
+	PLAYER_START,
+	PLAYER_STOP
+};
 
-#ifdef __ANDROID__
-#include <jni.h>
-#endif
-#include "ASLog.h"
-#ifndef   UINT64_C
-#define   UINT64_C(value)__CONCAT(value,ULL)
-#endif
-extern "C"{
-#include <stdio.h>
-#include <unistd.h>
-#include <pthread.h>
-#include <libavcodec/avcodec.h>
-#include <libavformat/avformat.h>
-#include <libswscale/swscale.h>
-#include <libavutil/dict.h>
-}
-
-#include <stdio.h>
-#include <string>
-#include "ASVideoDecodeEvent.h"
-#include "ASVideoDecodeThread.h"
 class ASNativePlayer{
 public:
-	static ASNativePlayer* getInstance();
 	static ASNativePlayer* createNewInstance();
-	static void releaseInstance();
+	static ASNativePlayer* createNewInstance(char* filename);
 	static void releaseInstance(ASNativePlayer* instance);
 public:
-	ASNativePlayer();
+	ASNativePlayer(std::string filename);
+    ASNativePlayer();
 	~ASNativePlayer();
 
-	int ASOpenFile(char* filename);
-	int ASOpenCodec();
+	int play();
+	int stop();
+	int pause();
+	int end();
 
-	int ASStartVideoDecode();
-	int ASStopVideoDecode();
+	void setVideoInputListener(ASVideoInputEvent* eventListener);
 
-	std::string getMediaSimpleInfo();
-	void setVideoDecodeListern(IVideoDecodeCB *handle);
-	void setVideoDecodeListern();
-	void setDisplayHandle(jobject handle);
-public:
-	int isOpenFile;
-	bool isDecoding;
 private:
-	static ASNativePlayer* instance;
-	AVFormatContext *pFormatCtx;
-	int 			 audioStream,videoStream;
-	AVCodecContext	*pVideoCodecCtx;
-	AVCodec			*pVideoCodec;
-	AVDictionary	*videoOptionsDict;
-
-	AVCodecContext	*pAudioCodecCtx;
-	AVCodec			*pAudioCodec;
-	AVDictionary	*audioOptionsDict;
-	FILE			*pSourceFile;
-	std::string	    fileName;
-
-	// videoDecodeCallBack
-	IVideoDecodeCB	*videoDecodeEeventListern;
-	ASVideoDecodeThread		*videoDecodeThread;
-	ASVideoDisplay*  videoDisplay;
-	pthread_mutex_t decodeMutex;
+	ASMediaFileSource* pVideoInput;
+//	ASMediaFileSourceEvent* pVideoInputEvent;
+	ASVideoInputEvent	*pVideoInputEvent;
+public:
+	ASPlayState state;
+	std::string filename;
 };
 
 
