@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.asnetwork.asplayer.ASPlayerActivity"
+            android:name="com.asnetwork.view.ASPlayerActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,8 +22,8 @@
             </intent-filter>
         </activity>
         
-        <activity  android:name="com.asnetwork.asplayer.ASFileDetailActivity"></activity>
-        <activity  android:name="com.asnetwork.asplayer.ASPlayerVideoActivity"
+        <activity  android:name="com.asnetwork.view.ASFileDetailActivity"></activity>
+        <activity  android:name="com.asnetwork.view.ASPlayerVideoActivity"
             android:screenOrientation="landscape"></activity>
     	
     </application>

@@ -71,17 +71,4 @@ public class ASVideoInputEvent {
     AS_Native_PlayerJNI.ASVideoInputEvent_videoClosed(swigCPtr, this, VideoInputParam.getCPtr(para), para);
   }
 
-  public void setVideoInput(ASVideoInput videoInput) {
-    if (getClass() == ASVideoInputEvent.class) AS_Native_PlayerJNI.ASVideoInputEvent_setVideoInput(swigCPtr, this, ASVideoInput.getCPtr(videoInput), videoInput); else AS_Native_PlayerJNI.ASVideoInputEvent_setVideoInputSwigExplicitASVideoInputEvent(swigCPtr, this, ASVideoInput.getCPtr(videoInput), videoInput);
-  }
-
-  public void setVideoInputInstance(ASVideoInput value) {
-    AS_Native_PlayerJNI.ASVideoInputEvent_videoInputInstance_set(swigCPtr, this, ASVideoInput.getCPtr(value), value);
-  }
-
-  public ASVideoInput getVideoInputInstance() {
-    long cPtr = AS_Native_PlayerJNI.ASVideoInputEvent_videoInputInstance_get(swigCPtr, this);
-    return (cPtr == 0) ? null : new ASVideoInput(cPtr, false);
-  }
-
 }

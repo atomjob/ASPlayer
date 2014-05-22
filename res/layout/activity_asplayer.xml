@@ -3,5 +3,5 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.asnetwork.asplayer.ASPlayerActivity"
+    tools:context="com.asnetwork.view.ASPlayerActivity"
     tools:ignore="MergeRootFrame" />

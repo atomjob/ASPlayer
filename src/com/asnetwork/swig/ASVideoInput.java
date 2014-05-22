@@ -8,11 +8,12 @@
 
 package com.asnetwork.swig;
 
-public class ASVideoInput extends ASMediaNode {
+public class ASVideoInput {
   private long swigCPtr;
+  protected boolean swigCMemOwn;
 
   protected ASVideoInput(long cPtr, boolean cMemoryOwn) {
-    super(AS_Native_PlayerJNI.ASVideoInput_SWIGUpcast(cPtr), cMemoryOwn);
+    swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
   }
 
@@ -32,7 +33,26 @@ public class ASVideoInput extends ASMediaNode {
       }
       swigCPtr = 0;
     }
-    super.delete();
+  }
+
+  protected void swigDirectorDisconnect() {
+    swigCMemOwn = false;
+    delete();
+  }
+
+  public void swigReleaseOwnership() {
+    swigCMemOwn = false;
+    AS_Native_PlayerJNI.ASVideoInput_change_ownership(this, swigCPtr, false);
+  }
+
+  public void swigTakeOwnership() {
+    swigCMemOwn = true;
+    AS_Native_PlayerJNI.ASVideoInput_change_ownership(this, swigCPtr, true);
+  }
+
+  public ASVideoInput() {
+    this(AS_Native_PlayerJNI.new_ASVideoInput(), true);
+    AS_Native_PlayerJNI.ASVideoInput_director_connect(this, swigCPtr, swigCMemOwn, true);
   }
 
   public int videoOpen(String url, VIDEO_SOURCE srcType) {
@@ -49,14 +69,6 @@ public class ASVideoInput extends ASMediaNode {
 
   public int videoClose() {
     return AS_Native_PlayerJNI.ASVideoInput_videoClose(swigCPtr, this);
-  }
-
-  public int packetDataRecv(SWIGTYPE_p_void frame) {
-    return AS_Native_PlayerJNI.ASVideoInput_packetDataRecv(swigCPtr, this, SWIGTYPE_p_void.getCPtr(frame));
-  }
-
-  public int packetDataSend(SWIGTYPE_p_void frame) {
-    return AS_Native_PlayerJNI.ASVideoInput_packetDataSend(swigCPtr, this, SWIGTYPE_p_void.getCPtr(frame));
   }
 
   public void setEventCB(ASVideoInputEvent eventCB) {

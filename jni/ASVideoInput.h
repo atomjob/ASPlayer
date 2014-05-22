@@ -9,6 +9,10 @@
 #define ASVIDEOINPUT_H_
 
 #include "ASCommon.h"
+#include "ASVideoDecodeProcess.h"
+//#include "ASMediaFileSource.h"
+
+class ASMediaFileSource;
 
 enum VIDEO_SOURCE{
 	SOURCE_FILE,
@@ -33,22 +37,20 @@ public:
 	int currentState; // AS_INIT / AS_Started / AS_Stopped / AS_Opened / AS_Closed
 	int currentActionState; // successful / failed
 	int nextAction;
-    AVFrame    *frame;
-
+	ASVideoDecodeProcess *decodeProcess;
+	ASMediaFileSource *fileSource;
+//	void *fileSource;
+	pVideoState videoState;
 public:
     VideoInputParam():
     	src_width(0),src_height(0),
     	dest_width(0),dest_height(0),
     	colorSpaceType(0),currentState(AS_INIT),
-    	nextAction(AS_INIT),frame(0){}
+    	nextAction(AS_INIT),decodeProcess(0),
+    	videoState(0),fileSource(0){}
 
 } *pInputInnerParam;
 
-class ASMediaNode{
-public:
-	virtual int packetDataRecv(void* frame) = 0;
-	virtual int packetDataSend(void* frame) = 0;
-};
 
 class ASVideoInput;
 
@@ -60,16 +62,9 @@ public:
 		virtual void videoStarted(VideoInputParam *para) = 0;
 		virtual void videoStopped(VideoInputParam *para) = 0;
 		virtual void videoClosed(VideoInputParam *para) = 0;
-
-
-		virtual void setVideoInput(ASVideoInput* videoInput){
-			this->videoInputInstance = videoInput;
-		}
-public:
-		ASVideoInput* videoInputInstance;
 };
 
-class ASVideoInput : public ASMediaNode{
+class ASVideoInput {
 public:
 	ASVideoInput()
         :pEventCB(0),innerParam(),isStart(false),isOpen(false){};
@@ -78,11 +73,9 @@ public:
 	virtual int videoStart(VideoInputParam *para) = 0;
 	virtual int videoStop() = 0;
 	virtual int videoClose() = 0;
-	virtual int packetDataRecv(void* frame) = 0;
-	virtual int packetDataSend(void* frame) = 0;
+	
 	void setEventCB(ASVideoInputEvent *eventCB){
 		this->pEventCB = eventCB;
-		this->pEventCB->setVideoInput(this);
 	}
 public:
 	ASVideoInputEvent *pEventCB;

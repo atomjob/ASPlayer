@@ -1,8 +1,9 @@
-package com.asnetwork.asplayer;
+package com.asnetwork.view;
 
 import com.asnetwok.asplayer.R;
 import com.asnetwork.common.Constants;
-import com.asnetwork.receiver.ASVideoDeviceReceiver;
+import com.asnetwork.player.NativePlayer;
+//import com.asnetwork.receiver.ASVideoDeviceReceiver;
 //import com.asnetwork.receiver.ASVideoDecodeRecv;
 import com.asnetwork.swig.ASNativePlayer;
 
@@ -17,7 +18,7 @@ public class ASPlayerVideoActivity extends Activity implements SurfaceHolder.Cal
 	public final static String TAG = "ASPlayerVideoActivity";
 	private SurfaceView videoSurfaceView;
 	
-	private ASNativePlayer player = null;
+	private NativePlayer player = null;
 //	public static ASVideoDecodeRecv decodeStateRecv = new ASVideoDecodeRecv();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,36 +41,16 @@ public class ASPlayerVideoActivity extends Activity implements SurfaceHolder.Cal
 
 	public void initNativePlayer(){
 		if(player == null){
-			String mediaFileName = 
-					(String) this.getIntent().getExtras().
-							get(Constants.MEDIA_FILE_NAME);
+			player = NativePlayer.getInstance();
+//			String mediaFileName = 
+//					(String) this.getIntent().getExtras().
+//							get(Constants.MEDIA_FILE_NAME);
+//			
+//			player = ASNativePlayer.createNewInstance(mediaFileName);
+//			ASVideoDeviceReceiver videoDeviceReceiver = new ASVideoDeviceReceiver();
+//			player.setVideoInputListener(videoDeviceReceiver);
+//			videoDeviceReceiver.setPlayer(player);
 			
-			player = ASNativePlayer.createNewInstance(mediaFileName);
-			ASVideoDeviceReceiver videoDeviceReceiver = new ASVideoDeviceReceiver();
-			player.setVideoInputListener(videoDeviceReceiver);
-			
-//			player.setPVideoInputEvent(videoDeviceReceiver);
-//			videoDeviceReceiver.setVideoInput(player.getPVideoInput());
-//			decodeStateRecv.setPlayer(player);
-//			int rect = this.player.ASOpenFile(mediaFileName);
-//			if(rect < 0) {
-//				ASNativePlayer.releaseInstance(player);
-//				Log.e(TAG,"ASOpenFile failed!!!");
-//				return;
-//			}
-			
-//			rect = this.player.ASOpenCodec();
-//			if(rect < 0){
-//				ASNativePlayer.releaseInstance(player);
-//				Log.e(TAG,"ASOpenCodec failed!!!");
-//				return;
-//			}else{
-//				String infoString = player.getMediaSimpleInfo();
-//				Log.i(TAG,infoString);
-//			}
-//			this.player.setVideoDecodeListern(decodeStateRecv);
-//			this.player.ASStartVideoDecode();
-//			return player;
 		}
 	}
 	 
@@ -86,8 +67,13 @@ public class ASPlayerVideoActivity extends Activity implements SurfaceHolder.Cal
 	public void surfaceCreated(SurfaceHolder holder) {
 		// TODO Auto-generated method stub
 		initNativePlayer();
-		player.play();
+//		player.play();
 //		player.setDisplayHandle(holder.getSurface());
+		String mediaFileName = 
+				(String) this.getIntent().getExtras().
+						get(Constants.MEDIA_FILE_NAME);
+				
+		player.playVideo(mediaFileName);
 	}
 
 	@Override
@@ -102,9 +88,7 @@ public class ASPlayerVideoActivity extends Activity implements SurfaceHolder.Cal
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		// TODO Auto-generated method stub
 		if(player!=null){
-//			player.setIsDecoding(false);
-			player.stop();
-			player = null;
+			player.stopVideo();
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package com.asnetwork.asplayer;
+package com.asnetwork.view;
 
 import java.util.List;
 
@@ -6,10 +6,8 @@ import com.asnetwok.asplayer.R;
 import com.asnetwork.adapter.ASMediaFileAapter;
 import com.asnetwork.domain.ASMediaFile;
 
-
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.os.Build;
 
 public class ASPlayerActivity extends ActionBarActivity {
 
@@ -27,8 +24,8 @@ public class ASPlayerActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_asplayer);
 
 		if (savedInstanceState == null) {
-			getSupportFragmentManager().beginTransaction()
-					.add(R.id.container, new PlaceholderFragment()).commit();
+			getSupportFragmentManager().beginTransaction().
+				add(R.id.container, new PlaceholderFragment()).commit();
 		}
 		
 	}
@@ -63,7 +60,6 @@ public class ASPlayerActivity extends ActionBarActivity {
 		public PlaceholderFragment() {
 		}
 
-		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_asplayer,

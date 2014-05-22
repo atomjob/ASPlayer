@@ -5,8 +5,8 @@
  *      Author: atomshuai
  */
 
-#include "ASVideoOutput.h"
-
+//#include "ASVideoOutput.h"
+//
 //ASVideoOutput::ASVideoOutput() {
 //	// TODO Auto-generated constructor stub
 //

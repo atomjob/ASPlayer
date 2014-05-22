@@ -23,17 +23,31 @@ extern "C"{
 	#include <stdio.h>
 	#include <unistd.h>
 	#include <pthread.h>
-	#include <libavcodec/avcodec.h>
-	#include <libavformat/avformat.h>
-	#include <libswscale/swscale.h>
-	#include <libavutil/dict.h>
+	#include "libavcodec/avcodec.h"
+	#include "libavformat/avformat.h"
+	#include "libswscale/swscale.h"
+    #include "libavutil/avutil.h"
+    #include "libavutil/time.h"
+	#include "libavutil/dict.h"
 
 #ifdef USE_SDL
-#include <SDL.h>
+//#include <SDL.h>
 #endif
 }
 
 #include <string>
+#include "ASTimer.h"
+
+
+#define SDL_AUDIO_BUFFER_SIZE 1024
+#define MAX_AUDIO_FRAME_SIZE 192000
+
+#define MAX_AUDIOQ_SIZE (5 * 16 * 1024)
+#define MAX_VIDEOQ_SIZE (5 * 256 * 1024)
+//class ASPacketQueue;
+//
+//#include "ASPacketQueue.h"
+
 
 
 #endif /* ASCOMMON_H_ */

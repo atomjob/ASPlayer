@@ -9,7 +9,8 @@
 #define ASMEDIAHANDLER_H_
 #include "ASCommon.h"
 #include "ASVideoInput.h"
-
+#include "ASPacketQueue.h"
+#include "ASVideoDecodeProcess.h"
 using namespace std;
 
 
@@ -26,10 +27,6 @@ public:
     
 public:
 	static void work(void* para);
-
-public:
-	virtual int packetDataRecv(void* frame);
-	virtual int packetDataSend(void* frame);
 
 public:
 	AVFormatContext *pFormatCtx;
@@ -50,7 +47,13 @@ public:
 	bool 			isRunning;
 	pthread_mutex_t decodeMutex;
     pthread_t       work_ptid;
-	ASMediaNode* nextMediaNode;
+    pthread_mutex_t       pVideoCondMutex;
+	pVideoState  videoState;
+    
+    ASVideoDecodeProcess* pDecodeProcess;
+
+    
+    
 };
 
 #endif /* ASMEDIAHANDLER_H_ */

@@ -9,8 +9,8 @@
 
 uint64_t ASVideoFrameMalloc::global_video_pkt_pts = AV_NOPTS_VALUE;
 
-int ASVideoFrameMalloc::get_buffer(struct AVCodecContext* c, AVFrame* pic) {
-	int rect = avcodec_default_get_buffer2(c,pic,0);
+int ASVideoFrameMalloc::get_buffer(struct AVCodecContext* c, AVFrame* pic,int flag) {
+	int rect = avcodec_default_get_buffer2(c,pic,flag);
 	uint64_t *pts = (uint64_t *)av_malloc(sizeof(uint64_t));
 	*pts = global_video_pkt_pts;
 	pic->opaque = pts;

@@ -12,18 +12,16 @@ typedef std::string String;
 #include <libavformat/avformat.h>
 #include <libswscale/swscale.h>
 #include "ASLog.h"
-#include "ASPlayer.h"
 #include "ASVideoInput.h"
+#include "ASPlayer.h"
 #include "ASMediaFileSource.h"
-#include "ASMediaFileSourceEvent.h"
 #include "ASVideoOutput.h"
+
 %}
 
-%feature("director") ASVideoInputEvent;
-%feature("director") ASMediaFileSourceEvent;
+%feature("director") ASVideoInput;
 %feature("director") ASPlayer;
-
-
+%feature("director") ASVideoInputEvent;
 %init %{
     JavaVM* g_cached_jvm = NULL;
     JNIEnv* g_cached_env = NULL;
@@ -47,8 +45,8 @@ typedef std::string String;
         return g_cached_env;
     }
 %}
-
-%include "ASPlayer.h"
 %include "ASVideoInput.h"
-%include "ASMediaFileSourceEvent.h"
+%include "ASPlayer.h"
+
+
 

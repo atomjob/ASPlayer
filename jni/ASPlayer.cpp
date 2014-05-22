@@ -6,72 +6,89 @@
  */
 
 #include "ASPlayer.h"
-ASNativePlayer::ASNativePlayer() :
-state(PLAYER_INIT),pVideoInput(NULL),pVideoInputEvent(NULL){
-}
 
-ASNativePlayer::ASNativePlayer(std::string filename) :
-		state(PLAYER_INIT),pVideoInput(NULL),pVideoInputEvent(NULL){
-	pVideoInput = new ASMediaFileSource();
-	this->filename = filename;
-//	pVideoInputEvent = new ASMediaFileSourceEvent();
-//	pVideoInput->setEventCB((ASVideoInputEvent*) pVideoInputEvent);
-//	pVideoInput->videoOpen((char *) filename.c_str(), SOURCE_FILE);
-}
+ASNativePlayer* ASNativePlayer::g_instance = NULL;
 
 ASNativePlayer* ASNativePlayer::createNewInstance(){
 	return new ASNativePlayer();
 }
 
-ASNativePlayer* ASNativePlayer::createNewInstance(char* filename) {
-	return new ASNativePlayer(filename);
+ASNativePlayer* ASNativePlayer::getInstance()
+{
+	if(!g_instance){
+		g_instance = new ASNativePlayer();
+	}
+	return g_instance;
 }
 
-void ASNativePlayer::releaseInstance(ASNativePlayer* instance) {
-	if (instance != 0) {
+void ASNativePlayer::releaseInstance(ASNativePlayer* instance){
+	if(instance){
 		delete instance;
-		instance = 0;
+		instance = NULL;
+	}
+}
+void ASNativePlayer::releaseInstance(){
+	if(g_instance){
+		delete g_instance;
+		g_instance = NULL;
 	}
 }
 
-ASNativePlayer::~ASNativePlayer() {
-	if (pVideoInput != 0) {
+
+ASNativePlayer::ASNativePlayer():isPlaying(false){
+	pVideoInput = new ASMediaFileSource();
+	pVideoInput->setEventCB(this);
+    pthread_mutex_init(&playMutex, 0);
+    pthread_cond_init(&playCond, 0);
+}
+
+ASNativePlayer::~ASNativePlayer(){
+	if(pVideoInput){
 		delete pVideoInput;
-		pVideoInput = 0;
+		pVideoInput = NULL;
 	}
-	if(pVideoInputEvent != 0){
-		delete pVideoInputEvent;
-		pVideoInputEvent = 0;
-	}
+    pthread_mutex_destroy(&playMutex);
+    pthread_cond_destroy(&playCond);
 }
 
-void ASNativePlayer::setVideoInputListener(ASVideoInputEvent* eventListener) {
-	this->pVideoInputEvent = eventListener;
-	pVideoInput->setEventCB(eventListener);
-}
 
-int ASNativePlayer::play() {
-	LOGI("==>ASNativePlayer::play");
-	if(pVideoInputEvent == NULL){
-			pVideoInputEvent = new ASMediaFileSourceEvent();
-			pVideoInput->setEventCB((ASVideoInputEvent*) pVideoInputEvent);
-	}
-	pVideoInput->videoOpen((char *) filename.c_str(), SOURCE_FILE);
+int ASNativePlayer::playVideo(char* filename){
+	LOGI("==>ASNativePlayer::play filename = %s",filename);
+//    if(isPlaying)
+//        pthread_cond_wait(&playCond, &playMutex);
+    pVideoInput->videoOpen(filename, SOURCE_FILE);
 	pVideoInput->videoStart(NULL);
 	LOGI("ASNativePlayer::play==>");
 	return AS_OK;
 }
-
-int ASNativePlayer::stop() {
-	pVideoInput->videoStop();
+int ASNativePlayer::stopVideo(){
+	LOGI("==>NativePlayer::stop");
+    pVideoInput->videoStop();
+	LOGI("NativePlayer::stop==>");
 	return AS_OK;
 }
 
-int ASNativePlayer::pause() {
-	return AS_OK;
+void ASNativePlayer::videoOpened(VideoInputParam *para){
+	LOGI("==>ASNativePlayer::videoOpened");
 }
+void ASNativePlayer::videoStarted(VideoInputParam *para){
+	LOGI("==>ASNativePlayer::videoStarted");
+//    pthread_mutex_lock(&playMutex);
+//    isPlaying = true;
+//    pthread_mutex_unlock(&playMutex);
+}
+void ASNativePlayer::videoStopped(VideoInputParam *para){
+	LOGI("==>ASNativePlayer::videoStopped");
 
-int ASNativePlayer::end() {
-	return AS_OK;
+    if(para && para->fileSource)
+	    	para->fileSource->releaseResource();
+//    if(isPlaying)
+//        pthread_cond_signal(&playCond);
+//    pthread_mutex_lock(&playMutex);
+//    isPlaying = false;
+//    pthread_mutex_unlock(&playMutex);
+}
+void ASNativePlayer::videoClosed(VideoInputParam *para){
+	LOGI("==>ASNativePlayer::videoClosed");
 }
 

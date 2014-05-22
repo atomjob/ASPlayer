@@ -14,10 +14,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.asnetwork.asplayer.*;
 import com.asnetwork.common.Constants;
 import com.asnetwork.domain.ASMediaFile;
 import com.asnetwork.swig.ASNativePlayer;
+import com.asnetwork.view.*;
 
 public class ASMediaFileAapter<T extends ASMediaFile> 
 	extends ASGenericAdapter<T> implements  OnItemClickListener  {

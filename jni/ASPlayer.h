@@ -9,8 +9,6 @@
 #define ASPLAYER_H_
 #include "ASCommon.h"
 #include "ASVideoInput.h"
-#include "ASVideoOutput.h"
-#include "ASMediaFileSourceEvent.h"
 #include "ASMediaFileSource.h"
 
 enum ASPlayState{
@@ -20,27 +18,32 @@ enum ASPlayState{
 	PLAYER_STOP
 };
 
-class ASNativePlayer{
+class ASNativePlayer : public ASVideoInputEvent{
 public:
 	static ASNativePlayer* createNewInstance();
-	static ASNativePlayer* createNewInstance(char* filename);
+    static ASNativePlayer* getInstance();
 	static void releaseInstance(ASNativePlayer* instance);
+    static void releaseInstance();
 public:
-	ASNativePlayer(std::string filename);
+    static ASNativePlayer* g_instance;
+public:
     ASNativePlayer();
 	~ASNativePlayer();
 
-	int play();
-	int stop();
-	int pause();
-	int end();
+	int playVideo(char* filename);
+	int stopVideo();
 
-	void setVideoInputListener(ASVideoInputEvent* eventListener);
+public:
+	virtual void videoOpened(VideoInputParam *para);
+	virtual void videoStarted(VideoInputParam *para);
+	virtual void videoStopped(VideoInputParam *para);
+	virtual void videoClosed(VideoInputParam *para);
 
 private:
 	ASMediaFileSource* pVideoInput;
-//	ASMediaFileSourceEvent* pVideoInputEvent;
-	ASVideoInputEvent	*pVideoInputEvent;
+    pthread_cond_t playCond;
+    pthread_mutex_t playMutex;
+    int isPlaying;
 public:
 	ASPlayState state;
 	std::string filename;

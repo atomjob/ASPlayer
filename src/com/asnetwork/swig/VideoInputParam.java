@@ -99,13 +99,30 @@ public class VideoInputParam {
     return AS_Native_PlayerJNI.VideoInputParam_nextAction_get(swigCPtr, this);
   }
 
-  public void setFrame(SWIGTYPE_p_AVFrame value) {
-    AS_Native_PlayerJNI.VideoInputParam_frame_set(swigCPtr, this, SWIGTYPE_p_AVFrame.getCPtr(value));
+  public void setDecodeProcess(SWIGTYPE_p_ASVideoDecodeProcess value) {
+    AS_Native_PlayerJNI.VideoInputParam_decodeProcess_set(swigCPtr, this, SWIGTYPE_p_ASVideoDecodeProcess.getCPtr(value));
   }
 
-  public SWIGTYPE_p_AVFrame getFrame() {
-    long cPtr = AS_Native_PlayerJNI.VideoInputParam_frame_get(swigCPtr, this);
-    return (cPtr == 0) ? null : new SWIGTYPE_p_AVFrame(cPtr, false);
+  public SWIGTYPE_p_ASVideoDecodeProcess getDecodeProcess() {
+    long cPtr = AS_Native_PlayerJNI.VideoInputParam_decodeProcess_get(swigCPtr, this);
+    return (cPtr == 0) ? null : new SWIGTYPE_p_ASVideoDecodeProcess(cPtr, false);
+  }
+
+  public void setFileSource(SWIGTYPE_p_ASMediaFileSource value) {
+    AS_Native_PlayerJNI.VideoInputParam_fileSource_set(swigCPtr, this, SWIGTYPE_p_ASMediaFileSource.getCPtr(value));
+  }
+
+  public SWIGTYPE_p_ASMediaFileSource getFileSource() {
+    long cPtr = AS_Native_PlayerJNI.VideoInputParam_fileSource_get(swigCPtr, this);
+    return (cPtr == 0) ? null : new SWIGTYPE_p_ASMediaFileSource(cPtr, false);
+  }
+
+  public void setVideoState(SWIGTYPE_p_pVideoState value) {
+    AS_Native_PlayerJNI.VideoInputParam_videoState_set(swigCPtr, this, SWIGTYPE_p_pVideoState.getCPtr(value));
+  }
+
+  public SWIGTYPE_p_pVideoState getVideoState() {
+    return new SWIGTYPE_p_pVideoState(AS_Native_PlayerJNI.VideoInputParam_videoState_get(swigCPtr, this), true);
   }
 
   public VideoInputParam() {

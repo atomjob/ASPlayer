@@ -21,32 +21,30 @@ public:
     virtual void videoStarted(VideoInputParam *para);
     virtual void videoStopped(VideoInputParam *para);
     virtual void videoClosed(VideoInputParam *para);
-    virtual void setVideoInput(ASVideoInput *videoInput);
 public:
     bool swig_overrides(int n) {
-      return (n < 5 ? swig_override[n] : false);
+      return (n < 4 ? swig_override[n] : false);
     }
 protected:
-    bool swig_override[5];
+    bool swig_override[4];
 };
 
-class SwigDirector_ASMediaFileSourceEvent : public ASMediaFileSourceEvent, public Swig::Director {
+class SwigDirector_ASVideoInput : public ASVideoInput, public Swig::Director {
 
 public:
     void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
-    SwigDirector_ASMediaFileSourceEvent(JNIEnv *jenv);
-    virtual ~SwigDirector_ASMediaFileSourceEvent();
-    virtual void videoOpened(VideoInputParam *para);
-    virtual void videoStarted(VideoInputParam *para);
-    virtual void videoStopped(VideoInputParam *para);
-    virtual void videoClosed(VideoInputParam *para);
-    virtual void setVideoInput(ASVideoInput *videoInput);
+    SwigDirector_ASVideoInput(JNIEnv *jenv);
+    virtual ~SwigDirector_ASVideoInput();
+    virtual int videoOpen(char *url, VIDEO_SOURCE srcType);
+    virtual int videoStart(VideoInputParam *para);
+    virtual int videoStop();
+    virtual int videoClose();
 public:
     bool swig_overrides(int n) {
-      return (n < 5 ? swig_override[n] : false);
+      return (n < 4 ? swig_override[n] : false);
     }
 protected:
-    bool swig_override[5];
+    bool swig_override[4];
 };
 
 

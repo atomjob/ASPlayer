@@ -1,4 +1,4 @@
-package com.asnetwork.asplayer;
+package com.asnetwork.view;
 
 import com.asnetwok.asplayer.R;
 import com.asnetwork.common.Constants;

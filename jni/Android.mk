@@ -17,8 +17,8 @@ LOCAL_SHARED_LIBRARIES := 	libavformat \
 							libavfilter
 							
 
-LOCAL_CFLAGS :=  -D__STDC_CONSTANT_MACROS
-LOCAL_LDLIBS += -llog -ljnigraphics -lz -landroid
+LOCAL_CFLAGS :=  -D__STDC_CONSTANT_MACROS -g
+LOCAL_LDLIBS += -llog -ljnigraphics -lz -landroid -lOpenSLES
 
 # Enable RTTI
 LOCAL_CPP_FEATURES += rtti
