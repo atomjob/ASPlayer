@@ -79,14 +79,13 @@ void ASNativePlayer::videoStarted(VideoInputParam *para){
 }
 void ASNativePlayer::videoStopped(VideoInputParam *para){
 	LOGI("==>ASNativePlayer::videoStopped");
-
+	if(para && para->decodeProcess){
+        delete para->decodeProcess;
+        para->decodeProcess = 0;
+    }
     if(para && para->fileSource)
 	    	para->fileSource->releaseResource();
-//    if(isPlaying)
-//        pthread_cond_signal(&playCond);
-//    pthread_mutex_lock(&playMutex);
-//    isPlaying = false;
-//    pthread_mutex_unlock(&playMutex);
+
 }
 void ASNativePlayer::videoClosed(VideoInputParam *para){
 	LOGI("==>ASNativePlayer::videoClosed");

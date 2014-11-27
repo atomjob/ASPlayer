@@ -100,6 +100,7 @@ typedef struct VideoState{
 	  ~VideoState(){
           pthread_cond_destroy(&pVideoDecodeCond);
           pthread_cond_destroy(&pAudioDecodeCond);
+          videoq.cleanAll();
         }
 }*pVideoState;
 

@@ -22,6 +22,7 @@ ASMediaFileSource::~ASMediaFileSource() {
 	releaseResource();
 	if (videoState != NULL) {
 		delete videoState;
+        videoState = 0;
 	}
 }
 
@@ -44,7 +45,7 @@ void ASMediaFileSource::releaseResource() {
 		LOGI("==>ASMediaFileSource::releaseResource avformat_close_input");
 	}
     
-	pthread_mutex_destroy(&decodeMutex);
+	//pthread_mutex_destroy(&decodeMutex);
 	isOpen = false;
 	isStart = false;
 	LOGI("ASMediaFileSource::releaseResource==>");
@@ -53,25 +54,34 @@ void ASMediaFileSource::releaseResource() {
 void ASMediaFileSource::work(void* para) {
 	ASMediaFileSource* source = (ASMediaFileSource*) para;
 	AVPacket packet;
-
         while (av_read_frame(source->pFormatCtx, &packet) >= 0) {
+        	LOGI("==>ASMediaFileSource::work (1)");
             bool isGoExit = false;
             pthread_mutex_lock(&source->decodeMutex);
+            LOGI("==>ASMediaFileSource::work (2)");
             if (!source->isRunning) {
                 isGoExit = true;
                 LOGI("==> av_read_frame Thread isGoExit = true");
                 source->videoState->videoq.isQuit = true;
             }
+            LOGI("==>ASMediaFileSource::work (3)");
+            if (isGoExit){
+            	pthread_mutex_unlock(&source->decodeMutex);
+            	 goto exit;
+            }
+
+            LOGI("==>ASMediaFileSource::work (4)");
             pthread_mutex_unlock(&source->decodeMutex);
-            if (isGoExit)
-                goto exit;
+
             if (packet.stream_index == source->videoStream) {
                 source->videoState->videoq.put(&packet);
-//                LOGI("====> (packet.stream_index == source->videoStream)");
+                LOGI("====> (packet.stream_index == source->videoStream)");
             } else if (packet.stream_index == source->audioStream) {
 //                source->videoState->audioq.put(&packet);
 //                LOGI("====> (packet.stream_index == source->audioStream)");
             }
+            //sleep(0.1);
+            LOGI("==>ASMediaFileSource::work (5)");
             av_free_packet(&packet);
         }
 
@@ -106,11 +116,12 @@ int ASMediaFileSource::videoOpen(char *filename, VIDEO_SOURCE srcType =
 	innerParam.currentState = AS_Opened;
 	innerParam.currentActionState = AS_FAILE;
 
-    if(!videoState){
-        videoState = new VideoState();
-        innerParam.videoState = videoState;
+    if(videoState){
+        delete videoState;
+        videoState = 0;
     }
-    
+    videoState = new VideoState();
+    innerParam.videoState = videoState;
     
     
     
@@ -229,14 +240,14 @@ int ASMediaFileSource::videoStop() {
 
 
 	// don't clean this resource before callback function
-    if(pDecodeProcess){
-        delete pDecodeProcess;
-        pDecodeProcess =0;
-    }
-    if(videoState){
-        delete videoState;
-        videoState = 0;
-    }
+//    if(pDecodeProcess){
+//        delete pDecodeProcess;
+//        pDecodeProcess =0;
+//    }
+//    if(videoState){
+//        delete videoState;
+//        videoState = 0;
+//    }
    // releaseResource();
 	LOGI("ASMediaFileSource::videoStop==>\n");
 	return AS_OK;

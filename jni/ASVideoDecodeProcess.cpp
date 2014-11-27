@@ -33,13 +33,16 @@ void ASVideoDecodeProcess::videoDecodeFunc(void* para) {
     double pts;
 	AVFrame *pFrame = av_frame_alloc();
 	for (;;) {
-        
             AVPacket pkt1, *packet = &pkt1;
             if(videoState->bIsSourceStop)
                 goto exit;
         
-            if(videoState->videoq.get(packet, 0) != AS_OK)
-                continue;
+            if(videoState->videoq.get(packet, 0) != AS_OK){
+            	//sleep(0.5);
+            	LOGI("==>ASVideoDecodeProcess::videoDecodeFunc  (2)");
+            	continue;
+            }
+            LOGI("==>ASVideoDecodeProcess::videoDecodeFunc  (3)");
 
             pts = 0;
         
@@ -62,6 +65,8 @@ void ASVideoDecodeProcess::videoDecodeFunc(void* para) {
 			if (frameFinished) {
 				LOGI("===> videoDecodeFunc get a video frame pts: %f === > display\n",pts);
                 
+            }else{
+            	LOGI("==>ASVideoDecodeProcess::videoDecodeFunc  (4) \n");
             }
         
             if(packet != NULL)  av_free_packet(packet);
@@ -72,6 +77,7 @@ void ASVideoDecodeProcess::videoDecodeFunc(void* para) {
             }
             pthread_mutex_unlock(&process->videoStopMutex);
             if(!isRunning) goto exit;
+            LOGI("==>ASVideoDecodeProcess::videoDecodeFunc  (5) \n");
 		}
     goto exit;
     exit:{

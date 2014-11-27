@@ -7,7 +7,8 @@ import com.asnetwork.adapter.ASMediaFileAapter;
 import com.asnetwork.domain.ASMediaFile;
 
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.FragmentActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-public class ASPlayerActivity extends ActionBarActivity {
+public class ASPlayerActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
