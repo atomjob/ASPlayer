@@ -47,5 +47,23 @@ protected:
     bool swig_override[4];
 };
 
+class SwigDirector_ASNativePlayer : public ASNativePlayer, public Swig::Director {
+
+public:
+    void swig_connect_director(JNIEnv *jenv, jobject jself, jclass jcls, bool swig_mem_own, bool weak_global);
+    SwigDirector_ASNativePlayer(JNIEnv *jenv);
+    virtual ~SwigDirector_ASNativePlayer();
+    virtual void videoOpened(VideoInputParam *para);
+    virtual void videoStarted(VideoInputParam *para);
+    virtual void videoStopped(VideoInputParam *para);
+    virtual void videoClosed(VideoInputParam *para);
+public:
+    bool swig_overrides(int n) {
+      return (n < 4 ? swig_override[n] : false);
+    }
+protected:
+    bool swig_override[4];
+};
+
 
 #endif

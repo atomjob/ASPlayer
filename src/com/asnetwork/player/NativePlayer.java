@@ -1,5 +1,7 @@
 package com.asnetwork.player;
 
+import android.util.Log;
+
 import com.asnetwork.swig.ASNativePlayer;
 import com.asnetwork.swig.VideoInputParam;
 
@@ -23,6 +25,10 @@ public class NativePlayer extends ASNativePlayer {
 		super();
 	}
 	
+	
+	/**
+	 * callback function from Native level
+	 */
 	public void videoOpened(VideoInputParam para) {
 		// AS_Native_PlayerJNI.ASNativePlayer_videoOpened(swigCPtr, this,
 		// VideoInputParam.getCPtr(para), para);
@@ -39,6 +45,7 @@ public class NativePlayer extends ASNativePlayer {
 		// AS_Native_PlayerJNI.ASNativePlayer_videoStopped(swigCPtr, this,
 		// VideoInputParam.getCPtr(para), para);
 		super.videoStopped(para);
+		Log.i("NativePlayer", "NativePlayer Java : videoStopped");
 	}
 
 	public void videoClosed(VideoInputParam para) {

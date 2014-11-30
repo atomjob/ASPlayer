@@ -21,6 +21,7 @@ typedef std::string String;
 
 %feature("director") ASVideoInput;
 %feature("director") ASPlayer;
+%feature("director") ASNativePlayer;
 %feature("director") ASVideoInputEvent;
 %init %{
     JavaVM* g_cached_jvm = NULL;

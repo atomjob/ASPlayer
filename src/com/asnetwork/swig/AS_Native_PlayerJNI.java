@@ -75,13 +75,19 @@ public class AS_Native_PlayerJNI {
   public final static native int ASNativePlayer_playVideo(long jarg1, ASNativePlayer jarg1_, String jarg2);
   public final static native int ASNativePlayer_stopVideo(long jarg1, ASNativePlayer jarg1_);
   public final static native void ASNativePlayer_videoOpened(long jarg1, ASNativePlayer jarg1_, long jarg2, VideoInputParam jarg2_);
+  public final static native void ASNativePlayer_videoOpenedSwigExplicitASNativePlayer(long jarg1, ASNativePlayer jarg1_, long jarg2, VideoInputParam jarg2_);
   public final static native void ASNativePlayer_videoStarted(long jarg1, ASNativePlayer jarg1_, long jarg2, VideoInputParam jarg2_);
+  public final static native void ASNativePlayer_videoStartedSwigExplicitASNativePlayer(long jarg1, ASNativePlayer jarg1_, long jarg2, VideoInputParam jarg2_);
   public final static native void ASNativePlayer_videoStopped(long jarg1, ASNativePlayer jarg1_, long jarg2, VideoInputParam jarg2_);
+  public final static native void ASNativePlayer_videoStoppedSwigExplicitASNativePlayer(long jarg1, ASNativePlayer jarg1_, long jarg2, VideoInputParam jarg2_);
   public final static native void ASNativePlayer_videoClosed(long jarg1, ASNativePlayer jarg1_, long jarg2, VideoInputParam jarg2_);
+  public final static native void ASNativePlayer_videoClosedSwigExplicitASNativePlayer(long jarg1, ASNativePlayer jarg1_, long jarg2, VideoInputParam jarg2_);
   public final static native void ASNativePlayer_state_set(long jarg1, ASNativePlayer jarg1_, int jarg2);
   public final static native int ASNativePlayer_state_get(long jarg1, ASNativePlayer jarg1_);
   public final static native void ASNativePlayer_filename_set(long jarg1, ASNativePlayer jarg1_, String jarg2);
   public final static native String ASNativePlayer_filename_get(long jarg1, ASNativePlayer jarg1_);
+  public final static native void ASNativePlayer_director_connect(ASNativePlayer obj, long cptr, boolean mem_own, boolean weak_global);
+  public final static native void ASNativePlayer_change_ownership(ASNativePlayer obj, long cptr, boolean take_or_release);
   public final static native long ASNativePlayer_SWIGUpcast(long jarg1);
 
   public static void SwigDirector_ASVideoInputEvent_videoOpened(ASVideoInputEvent self, long para) {
@@ -107,6 +113,18 @@ public class AS_Native_PlayerJNI {
   }
   public static int SwigDirector_ASVideoInput_videoClose(ASVideoInput self) {
     return self.videoClose();
+  }
+  public static void SwigDirector_ASNativePlayer_videoOpened(ASNativePlayer self, long para) {
+    self.videoOpened((para == 0) ? null : new VideoInputParam(para, false));
+  }
+  public static void SwigDirector_ASNativePlayer_videoStarted(ASNativePlayer self, long para) {
+    self.videoStarted((para == 0) ? null : new VideoInputParam(para, false));
+  }
+  public static void SwigDirector_ASNativePlayer_videoStopped(ASNativePlayer self, long para) {
+    self.videoStopped((para == 0) ? null : new VideoInputParam(para, false));
+  }
+  public static void SwigDirector_ASNativePlayer_videoClosed(ASNativePlayer self, long para) {
+    self.videoClosed((para == 0) ? null : new VideoInputParam(para, false));
   }
 
   private final static native void swig_module_init();

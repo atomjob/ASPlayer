@@ -82,11 +82,5 @@ public class ASPlayerActivity extends FragmentActivity {
 		
 	}
 
-	static {
-		System.loadLibrary("avutil-52");
-        System.loadLibrary("avcodec-55");
-        System.loadLibrary("avformat-55");
-        System.loadLibrary("swscale-2");
-		System.loadLibrary("ASPlayer");
-	}
+	
 }

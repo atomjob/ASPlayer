@@ -1,14 +1,22 @@
 package com.asnetwork.view;
 
 import com.asnetwok.asplayer.R;
+import com.asnetwork.app.ASPlayerApplication;
 import com.asnetwork.common.Constants;
 import com.asnetwork.player.NativePlayer;
+import com.asnetwork.service.ASMediaService;
+import com.asnetwork.service.IASMediaPlayer;
 //import com.asnetwork.receiver.ASVideoDeviceReceiver;
 //import com.asnetwork.receiver.ASVideoDecodeRecv;
 import com.asnetwork.swig.ASNativePlayer;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -18,7 +26,8 @@ public class ASPlayerVideoActivity extends Activity implements SurfaceHolder.Cal
 	public final static String TAG = "ASPlayerVideoActivity";
 	private SurfaceView videoSurfaceView;
 	
-	private NativePlayer player = null;
+//	IASMediaPlayer mIASMediaPlayer;
+//	private NativePlayer player = null;
 //	public static ASVideoDecodeRecv decodeStateRecv = new ASVideoDecodeRecv();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,22 +46,14 @@ public class ASPlayerVideoActivity extends Activity implements SurfaceHolder.Cal
 		
 		videoSurfaceView = (SurfaceView)findViewById(R.id.surfaceView_video);
 		videoSurfaceView.getHolder().addCallback(this);
+		
+//		boolean isOK = bindService(new Intent(this,ASMediaService.class), mConnection, BIND_AUTO_CREATE);
+//		
+//		if(!isOK){
+//			Log.d(TAG, "bindService ASMediaService failed ");
+//		}
 	}
 
-	public void initNativePlayer(){
-		if(player == null){
-			player = NativePlayer.getInstance();
-//			String mediaFileName = 
-//					(String) this.getIntent().getExtras().
-//							get(Constants.MEDIA_FILE_NAME);
-//			
-//			player = ASNativePlayer.createNewInstance(mediaFileName);
-//			ASVideoDeviceReceiver videoDeviceReceiver = new ASVideoDeviceReceiver();
-//			player.setVideoInputListener(videoDeviceReceiver);
-//			videoDeviceReceiver.setPlayer(player);
-			
-		}
-	}
 	 
 	@Override
 	protected void onPause() {
@@ -66,14 +67,20 @@ public class ASPlayerVideoActivity extends Activity implements SurfaceHolder.Cal
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		// TODO Auto-generated method stub
-		initNativePlayer();
 //		player.play();
 //		player.setDisplayHandle(holder.getSurface());
 		String mediaFileName = 
 				(String) this.getIntent().getExtras().
 						get(Constants.MEDIA_FILE_NAME);
-				
-		player.playVideo(mediaFileName);
+	  IASMediaPlayer mIASMediaPlayer = 	((ASPlayerApplication)getApplication()).mIASMediaPlayer;
+		if(mIASMediaPlayer!=null){
+			try {
+				mIASMediaPlayer.playVideo(mediaFileName);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
@@ -87,8 +94,31 @@ public class ASPlayerVideoActivity extends Activity implements SurfaceHolder.Cal
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		// TODO Auto-generated method stub
-		if(player!=null){
-			player.stopVideo();
+		IASMediaPlayer mIASMediaPlayer = 	((ASPlayerApplication)getApplication()).mIASMediaPlayer;
+		if(mIASMediaPlayer!=null){
+			try {
+				mIASMediaPlayer.stopVideo();
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
+	
+	/*
+	private ServiceConnection mConnection = new ServiceConnection() {
+	    // Called when the connection with the service is established
+	    public void onServiceConnected(ComponentName className, IBinder service) {
+	        // Following the example above for an AIDL interface,
+	        // this gets an instance of the IRemoteInterface, which we can use to call on the service
+	    	mIASMediaPlayer = IASMediaPlayer.Stub.asInterface(service);
+	    }
+
+	    // Called when the connection with the service disconnects unexpectedly
+	    public void onServiceDisconnected(ComponentName className) {
+	        Log.e(TAG, "Service has unexpectedly disconnected");
+	        mIASMediaPlayer = null;
+	    }
+	};
+	*/
 }

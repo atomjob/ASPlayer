@@ -35,6 +35,21 @@ public class ASNativePlayer extends ASVideoInputEvent {
     super.delete();
   }
 
+  protected void swigDirectorDisconnect() {
+    swigCMemOwn = false;
+    delete();
+  }
+
+  public void swigReleaseOwnership() {
+    swigCMemOwn = false;
+    AS_Native_PlayerJNI.ASNativePlayer_change_ownership(this, swigCPtr, false);
+  }
+
+  public void swigTakeOwnership() {
+    swigCMemOwn = true;
+    AS_Native_PlayerJNI.ASNativePlayer_change_ownership(this, swigCPtr, true);
+  }
+
   public static ASNativePlayer createNewInstance() {
     long cPtr = AS_Native_PlayerJNI.ASNativePlayer_createNewInstance();
     return (cPtr == 0) ? null : new ASNativePlayer(cPtr, false);
@@ -64,6 +79,7 @@ public class ASNativePlayer extends ASVideoInputEvent {
 
   public ASNativePlayer() {
     this(AS_Native_PlayerJNI.new_ASNativePlayer(), true);
+    AS_Native_PlayerJNI.ASNativePlayer_director_connect(this, swigCPtr, swigCMemOwn, true);
   }
 
   public int playVideo(String filename) {
@@ -75,19 +91,19 @@ public class ASNativePlayer extends ASVideoInputEvent {
   }
 
   public void videoOpened(VideoInputParam para) {
-    AS_Native_PlayerJNI.ASNativePlayer_videoOpened(swigCPtr, this, VideoInputParam.getCPtr(para), para);
+    if (getClass() == ASNativePlayer.class) AS_Native_PlayerJNI.ASNativePlayer_videoOpened(swigCPtr, this, VideoInputParam.getCPtr(para), para); else AS_Native_PlayerJNI.ASNativePlayer_videoOpenedSwigExplicitASNativePlayer(swigCPtr, this, VideoInputParam.getCPtr(para), para);
   }
 
   public void videoStarted(VideoInputParam para) {
-    AS_Native_PlayerJNI.ASNativePlayer_videoStarted(swigCPtr, this, VideoInputParam.getCPtr(para), para);
+    if (getClass() == ASNativePlayer.class) AS_Native_PlayerJNI.ASNativePlayer_videoStarted(swigCPtr, this, VideoInputParam.getCPtr(para), para); else AS_Native_PlayerJNI.ASNativePlayer_videoStartedSwigExplicitASNativePlayer(swigCPtr, this, VideoInputParam.getCPtr(para), para);
   }
 
   public void videoStopped(VideoInputParam para) {
-    AS_Native_PlayerJNI.ASNativePlayer_videoStopped(swigCPtr, this, VideoInputParam.getCPtr(para), para);
+    if (getClass() == ASNativePlayer.class) AS_Native_PlayerJNI.ASNativePlayer_videoStopped(swigCPtr, this, VideoInputParam.getCPtr(para), para); else AS_Native_PlayerJNI.ASNativePlayer_videoStoppedSwigExplicitASNativePlayer(swigCPtr, this, VideoInputParam.getCPtr(para), para);
   }
 
   public void videoClosed(VideoInputParam para) {
-    AS_Native_PlayerJNI.ASNativePlayer_videoClosed(swigCPtr, this, VideoInputParam.getCPtr(para), para);
+    if (getClass() == ASNativePlayer.class) AS_Native_PlayerJNI.ASNativePlayer_videoClosed(swigCPtr, this, VideoInputParam.getCPtr(para), para); else AS_Native_PlayerJNI.ASNativePlayer_videoClosedSwigExplicitASNativePlayer(swigCPtr, this, VideoInputParam.getCPtr(para), para);
   }
 
   public void setState(ASPlayState value) {
