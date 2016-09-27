@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
+// add no sence comments
 public abstract class ASGenericAdapter<T> extends BaseAdapter {
 	
 	public List<T> dataSource;
